@@ -1,0 +1,1793 @@
+
+'use strict';
+
+const Alexa = require('alexa-sdk');
+var strip = require('./strip.js');
+
+const APP_ID = 'amzn1.ask.skill.c9c216a0-0e13-4b64-a24c-4d35a17bcdc2';
+
+var SKILL_NAME = 'Pressure Point Hack';
+var HELP_MESSAGE = 'You can ask for a pressure point hack via the location on the body, hand pressure point, foot pressure point, leg pressure point, abdominal pressure point, or face pressure point... Which would you like?';
+var HELP_REPROMPT =  'You can ask for a pressure point hack based on your need The categories are reduce stress, dizziness, sinus pain, hay fever, eyestrain, Back pain, constipation, headache, sciatica, and anxiety... I full list can be found in the skill description Which would you like?';
+var HELP_PROMPT = 'Examples of what you can say are listed in the Skill Card: ';
+var STOP_MESSAGE = 'Thanks for learning and relaxing';
+var STOP_MESSAGE_DISPLAY = 'Use your finger to select another.';
+var SKILL_CARD_TITLE = "Here is something to try:";
+const BREAK = '<break time="1s"/>';
+const makeImage = Alexa.utils.ImageUtils.makeImage;
+const makePlainText = Alexa.utils.TextUtils.makePlainText;
+var VOICE_NOT_FOUND_MESSAGE = 'Sorry that pressure point hack was not found';
+
+  
+  var goodByes = [
+  'If you like this educational Skill please leave us a positive review',
+  'Please be sure to check out our other sound Skill Skoreline Sounds',
+  'Please be sure to check out our other sound Skill Cityscape Sounds',
+  'Please be sure to check out our other sound Skill Windy Prairie',
+  'Please be sure to check out our other educational skill Alphabet Say',
+  'Please be sure to check out our other educational skill See Say',
+  'Please be sure to check out our other educational skill Shapes Say',
+  'Please be sure to check out our other educational skill My Dog Rover',
+  'Please be sure to check out our other skill Funny Movie Lines',
+  'If you like pressure point hack please leave us a positive review'
+  ];
+  
+const data = {
+    "hacks" : [
+        { "tip":"The Hand Valley Point, please rebview the display in the skill card. Let's hold this position for 60 seconds time is starting in, 5, 4, 3, 2, 1" + BREAK + "<audio src='https://s3.amazonaws.com/pressurepointhack/spa30.mp3' />" + "<amazon:effect name='whispered'>Twenty more seconds to go!</amazon:effect>" + "<audio src='https://s3.amazonaws.com/pressurepointhack/spa30.mp3' />" + "Great Job your all done!",
+            "category": "Pressure Point Hack",
+            "name": "Hand Valley Point",
+            "text": "The Hand Valley Point is situated in between your Thumb and Pointer Finger. The exact spot where you find the Hand Valley Point is the active place between the Thumb and Index Finger, you can also review the image in the skill card.",
+            "symptoms": "Stress, Headache, Migraine, Constipation",
+            "location": "Hand",
+            "smallImage": 'https://s3.amazonaws.com/pressurepointhack/handValleyPointsm.png',
+            "largeImage": 'https://s3.amazonaws.com/pressurepointhack/handValleyPoint.png',
+        },
+        { "tip":"The Base of Thumb Point, please rebview the display in the skill card. Let's hold this position for 60 seconds time is starting in, 5, 4, 3, 2, 1" + BREAK + "<audio src='https://s3.amazonaws.com/pressurepointhack/spa30.mp3' />" + "<amazon:effect name='whispered'>Twenty more seconds to go!</amazon:effect>" + "<audio src='https://s3.amazonaws.com/pressurepointhack/spa30.mp3' />" + "Great Job your all done!",
+            "category": "Pressure Point Hack",
+            "name": "Base of Thumb Point",
+            "text": "The Base of Thumb point is situated in base of your thumb above the wrist. Firmly press with your other thumb on the spot shown in the skill card.",
+            "symptoms": "Breathing problems, Coughing",
+            "location": "Hand",
+            "smallImage": 'https://s3.amazonaws.com/pressurepointhack/baseOfThePointsm.png',
+            "largeImage": 'https://s3.amazonaws.com/pressurepointhack/baseOfThePoint.png',
+        },
+        { "tip":"The Wrist Point, please rebview the display in the skill card. Let's hold this position for 60 seconds time is starting in, 5, 4, 3, 2, 1" + BREAK + "<audio src='https://s3.amazonaws.com/pressurepointhack/spa30.mp3' />" + "<amazon:effect name='whispered'>Twenty more seconds to go!</amazon:effect>" + "<audio src='https://s3.amazonaws.com/pressurepointhack/spa30.mp3' />" + "Great Job your all done!",
+            "category": "Pressure Point Hack",
+            "name": "Wrist Point",
+            "text": "The Wrist Point on your wrist will line up with little finger. You can easily find the exact Wrist Point spot by looking at the skill card.",
+            "symptoms": "Stress, Emotional State",
+            "location": "Hand",
+            "smallImage": 'https://s3.amazonaws.com/pressurepointhack/wristPointsm.png',
+            "largeImage": 'https://s3.amazonaws.com/pressurepointhack/wristPoint.png',
+        },
+        { "tip":"The Inner Gate Point, please rebview the display in the skill card. Let's hold this position for 60 seconds time is starting in, 5, 4, 3, 2, 1" + BREAK + "<audio src='https://s3.amazonaws.com/pressurepointhack/spa30.mp3' />" + "<amazon:effect name='whispered'>Twenty more seconds to go!</amazon:effect>" + "<audio src='https://s3.amazonaws.com/pressurepointhack/spa30.mp3' />" + "Great Job your all done!",
+             "category": "Pressure Point Hack",
+            "name": "Inner Gate Point",
+            "text": "The Inner Gate Point is on your wrist. Find exact pressure point about three centimeters distance from wrist bend, you can also review the image in the skill card.",
+            "symptoms": "Indigestion, Nausea, Stomach Pain, Anxiety",
+            "location": "Hand",
+            "smallImage": 'https://s3.amazonaws.com/pressurepointhack/innerGatePointsm.png',
+            "largeImage": 'https://s3.amazonaws.com/pressurepointhack/innerGatePoint.png',
+        },
+        { "tip":"The Large Intestine Point, please rebview the display in the skill card. Let's hold this position for 60 seconds time is starting in, 5, 4, 3, 2, 1" + BREAK + "<audio src='https://s3.amazonaws.com/pressurepointhack/spa30.mp3' />" + "<amazon:effect name='whispered'>Twenty more seconds to go!</amazon:effect>" + "<audio src='https://s3.amazonaws.com/pressurepointhack/spa30.mp3' />" + "Great Job your all done!",
+            "category": "Pressure Point Hack",
+            "name": "Large Intestine Point",
+            "text": "To find the Large Intestine Point bend your arm at the elbow and put it on your chest. Find the exact point by moving your thumb of the another hand from elbow to inner side, you can also review the image in the skill card.",
+            "symptoms": "Stress, Water Waste",
+            "location": "Arm, Elbow",
+            "smallImage": 'https://s3.amazonaws.com/pressurepointhack/largeIntestinePointsm.png',
+            "largeImage": 'https://s3.amazonaws.com/pressurepointhack/largeIntestinePoint.png',
+        },
+        { "tip":"The Big Rushing Point, please rebview the display in the skill card. Let's hold this position for 60 seconds time is starting in, 5, 4, 3, 2, 1" + BREAK + "<audio src='https://s3.amazonaws.com/pressurepointhack/spa30.mp3' />" + "<amazon:effect name='whispered'>Twenty more seconds to go!</amazon:effect>" + "<audio src='https://s3.amazonaws.com/pressurepointhack/spa30.mp3' />" + "Great Job your all done!",
+            "category": "Pressure Point Hack",
+            "name": "Big Rushing Point",
+            "text": "The Big Rushing Point is located in the valley of Big Toe and the second Toe, one and half inches distance from Toes in the valley, you can also review the image in the skill card.",
+            "symptoms": "Headache, Eye Tiredness, Foot Pain",
+            "location": "Foot",
+            "smallImage": 'https://s3.amazonaws.com/pressurepointhack/bigRushingPointsm.png',
+            "largeImage": 'https://s3.amazonaws.com/pressurepointhack/bigRushingPoint.png',
+        },
+        { "tip":"The Above Tears Point, please rebview the display in the skill card. Let's hold this position for 60 seconds time is starting in, 5, 4, 3, 2, 1" + BREAK + "<audio src='https://s3.amazonaws.com/pressurepointhack/spa30.mp3' />" + "<amazon:effect name='whispered'>Twenty more seconds to go!</amazon:effect>" + "<audio src='https://s3.amazonaws.com/pressurepointhack/spa30.mp3' />" + "Great Job your all done!",
+            "category": "Pressure Point Hack",
+            "name": "Above Tears Point",
+            "text": "Above Tears Point is located on the webbing of last two Toes. Easily find the exact point at one inches distance from webbing of Fourth and Fifth Toe located on both feet, you can also review the image in the skill card.",
+            "symptoms": "Headache, Sciatica, Arthritis, Water Waste",
+            "location": "Foot",
+            "smallImage": 'https://s3.amazonaws.com/pressurepointhack/aboveTearsPointsm.png',
+            "largeImage": 'https://s3.amazonaws.com/pressurepointhack/aboveTearsPoint.png',
+        },
+        { "tip":"The Kidney 1 Point, please rebview the display in the skill card. Let's hold this position for 60 seconds time is starting in, 5, 4, 3, 2, 1" + BREAK + "<audio src='https://s3.amazonaws.com/pressurepointhack/spa30.mp3' />" + "<amazon:effect name='whispered'>Twenty more seconds to go!</amazon:effect>" + "<audio src='https://s3.amazonaws.com/pressurepointhack/spa30.mp3' />" + "Great Job your all done!",
+            "category": "Pressure Point Hack",
+            "name": "Kidney 1 Point",
+            "text": "The Kidney 1 Point is situated on sole of your foot. Find the exact spot for Kidney 1 Point as displayed in the image in the skill card.",
+            "symptoms": "Headache, Dizziness, Neck Pain, Nausea",
+            "location": "Foot",
+            "smallImage": 'https://s3.amazonaws.com/pressurepointhack/kidneyPointsm.png',
+            "largeImage": 'https://s3.amazonaws.com/pressurepointhack/kidneyPoint.png',
+        },
+        { "tip":"The Ankle Point, please rebview the display in the skill card. Let's hold this position for 60 seconds time is starting in, 5, 4, 3, 2, 1" + BREAK + "<audio src='https://s3.amazonaws.com/pressurepointhack/spa30.mp3' />" + "<amazon:effect name='whispered'>Twenty more seconds to go!</amazon:effect>" + "<audio src='https://s3.amazonaws.com/pressurepointhack/spa30.mp3' />" + "Great Job your all done!",
+            "category": "Pressure Point Hack",
+            "name": "Ankle Point",
+            "text": "The Ankle Point is situated on inner side of leg above the Ankle. It is exactly two inches above the Ankle, as displayed in the image in the skill card.",
+            "symptoms": "Digestion, Appetite, Water Waste",
+            "location": "Leg",
+            "smallImage": 'https://s3.amazonaws.com/pressurepointhack/anklePointsm.png',
+            "largeImage": 'https://s3.amazonaws.com/pressurepointhack/anklePoint.png',
+        },
+        { "tip":"The Three Mile Poin, please rebview the display in the skill card. Let's hold this position for 60 seconds time is starting in, 5, 4, 3, 2, 1" + BREAK + "<audio src='https://s3.amazonaws.com/pressurepointhack/spa30.mp3' />" + "<amazon:effect name='whispered'>Twenty more seconds to go!</amazon:effect>" + "<audio src='https://s3.amazonaws.com/pressurepointhack/spa30.mp3' />" + "Great Job your all done!",
+            "category": "Pressure Point Hack",
+            "name": "Three Mile Point",
+            "text": "The Three Mile Point is located below the Knee. Three Mile Point is 2 inches below the knee cap on the outer side of leg. you can review the image in the skill card.",
+            "symptoms": "Digestion, Stomach Pain",
+            "location": "Leg",
+            "smallImage": 'https://s3.amazonaws.com/pressurepointhack/threeMilePointsm.png',
+            "largeImage": 'https://s3.amazonaws.com/pressurepointhack/threeMilePoint.png',
+        },
+        { "tip":"The Commanding Middle Points, please rebview the display in the skill card. Let's hold this position for 60 seconds time is starting in, 5, 4, 3, 2, 1" + BREAK + "<audio src='https://s3.amazonaws.com/pressurepointhack/spa30.mp3' />" + "<amazon:effect name='whispered'>Twenty more seconds to go!</amazon:effect>" + "<audio src='https://s3.amazonaws.com/pressurepointhack/spa30.mp3' />" + "Great Job your all done!",
+            "category": "Pressure Point Hack",
+            "name": "Commanding Middle Points",
+            "text": "Commanding Middle Points are located at exact backside of knee cap. Find it on Center of Back of Knee crease same as displayed in the skill card.",
+            "symptoms": "Back Pain, Sciatica, Neck Pain, Arthritis",
+            "location": "Leg",
+            "smallImage": 'https://s3.amazonaws.com/pressurepointhack/commandingMiddlePointssm.png',
+            "largeImage": 'https://s3.amazonaws.com/pressurepointhack/commandingMiddlePoints.png',
+        },
+        { "tip":"The Abdominal Sorrow Point, please rebview the display in the skill card. Let's hold this position for 60 seconds time is starting in, 5, 4, 3, 2, 1" + BREAK + "<audio src='https://s3.amazonaws.com/pressurepointhack/spa30.mp3' />" + "<amazon:effect name='whispered'>Twenty more seconds to go!</amazon:effect>" + "<audio src='https://s3.amazonaws.com/pressurepointhack/spa30.mp3' />" + "Great Job your all done!",
+            "category": "Pressure Point Hack",
+            "name": "Abdominal Sorrow Point",
+            "text": "Abdominal Sorrow Point is located above the Navel and below the last rib. locate the Abdominal Sorrow Point by starting from right line of earlobe at end of last rib of ribcage as displayed in the skill card.",
+            "symptoms": "Ulcers, Indigestion, Rib Pain",
+            "location": "Abdomen",
+            "smallImage": 'https://s3.amazonaws.com/pressurepointhack/abdominal+Sorrow+Pointsm.png',
+            "largeImage": 'https://s3.amazonaws.com/pressurepointhack/abdominal+Sorrow+Point.png',
+        },
+        { "tip":"The Sea of Energy Point, please rebview the display in the skill card. Let's hold this position for 60 seconds time is starting in, 5, 4, 3, 2, 1" + BREAK + "<audio src='https://s3.amazonaws.com/pressurepointhack/spa30.mp3' />" + "<amazon:effect name='whispered'>Twenty more seconds to go!</amazon:effect>" + "<audio src='https://s3.amazonaws.com/pressurepointhack/spa30.mp3' />" + "Great Job your all done!",
+            "category": "Pressure Point Hack",
+            "name": "Sea of Energy Point",
+            "text": "Sea of Energy Point is situated below the Belly button. You can it about 2 centimeters below the Navel, as displayed in the skill card.",
+            "symptoms": "Digestion, Abdominal Pain, Constipation",
+            "location": "Abdomen",
+            "smallImage": 'https://s3.amazonaws.com/pressurepointhack/sea+of+Energy+Pointsm.png',
+            "largeImage": 'https://s3.amazonaws.com/pressurepointhack/sea+of+Energy+Point.png',
+        },
+        { "tip":"The Third Eye Point, please rebview the display in the skill card. Let's hold this position for 60 seconds time is starting in, 5, 4, 3, 2, 1" + BREAK + "<audio src='https://s3.amazonaws.com/pressurepointhack/spa30.mp3' />" + "<amazon:effect name='whispered'>Twenty more seconds to go!</amazon:effect>" + "<audio src='https://s3.amazonaws.com/pressurepointhack/spa30.mp3' />" + "Great Job your all done!",
+            "category": "Pressure Point Hack",
+            "name": "Third Eye Point",
+            "text": "Third Eye Point is situated between the two eyebrows. The exact spot for the Third Eye Point is as displayed in the skill card.",
+            "symptoms": "Headache, Ulcers, Digestion, Eye Tiredness",
+            "location": "Face",
+            "smallImage": 'https://s3.amazonaws.com/pressurepointhack/thridEyePointsm.png',
+            "largeImage": 'https://s3.amazonaws.com/pressurepointhack/thridEyePoint.png',
+        },
+        { "tip":"The Drilling Bamboo Points, please rebview the display in the skill card. Let's hold this position for 60 seconds time is starting in, 5, 4, 3, 2, 1" + BREAK + "<audio src='https://s3.amazonaws.com/pressurepointhack/spa30.mp3' />" + "<amazon:effect name='whispered'>Twenty more seconds to go!</amazon:effect>" + "<audio src='https://s3.amazonaws.com/pressurepointhack/spa30.mp3' />" + "Great Job your all done!",
+            "category": "Pressure Point Hack",
+            "name": "Drilling Bamboo Points",
+            "text": "Drilling Bamboo Points are located at ridge of the eyebrows. Drilling Bamboo Points are at the spot where ridge of the eyebrows meet the bridge of the nose, as displayed in the skill card.",
+            "symptoms": "Sinus Pain, Headache, Eye Tiredness",
+            "location": "Face",
+            "smallImage": 'https://s3.amazonaws.com/pressurepointhack/drillingPointsm.png',
+            "largeImage": 'https://s3.amazonaws.com/pressurepointhack/drillingPoint.png',
+        }
+    ],
+};
+
+
+const handlers = {
+    'LaunchRequest': function () {
+      if(supportsDisplay.call(this)||isSimulator.call(this)) {
+          console.log("has display:"+ supportsDisplay.call(this));
+          console.log("is simulator:"+isSimulator.call(this));
+          var content = {
+             "templateToken" : "factBodyTemplate",
+             "listItems": "listItems",
+             "askOrTell" : ":ask",
+             "sessionAttributes": this.attributes
+          };
+          renderTemplate.call(this, content);
+          } else {
+         let card = "You can ask for a pressure point hack based on your need\n Such as Stress, Dizziness, Sinus Pain, Eye Tiredness,\n Back pain, Digestion, Appetite, Constipation,\n Neck Pain, Breathing Problems, Nausea, Stomach Pain,\n Headache, Sciatica, Arthritis, Water Waste, and Anxiety.\n You can also request a pressure point based on the\n a part of you body such as leg, face, elbow, foot, and abdominal. \nWhich would you like?";
+         this.response.cardRenderer(SKILL_CARD_TITLE, strip.stripTags(card));
+         this.response.speak('You can ask for a pressure point hack based on your need\n Such as Stress, Dizziness, and Sciatica. Or you can say random or based on the a part of the body, enclosed is a complete list in the Skill Card... \nHow can I help?')
+                      .listen("Which would you like?");
+         this.emit(':responseReady');
+        }
+    },
+    'PressurePointHack': function () {
+        let points = randomArrayElement(getVoice(''));
+        this.attributes['pressure'] = points.tip;
+        this.attributes['pressure'] = points.name;
+        this.attributes['pressure'] = points.text;
+        this.attributes['pressure'] = points.smallImage;
+        this.attributes['pressure'] = points.largeImage;
+
+        let speechOutput =  "Here is a random pressure point" + points.tip + BREAK + STOP_MESSAGE;
+        let respeech =  "Would you like to try again?";
+        let card = points.text +"\n" + points.text;
+        let imageObj = {smallImageUrl: points.smallImage, largeImageUrl: points.largeImage};
+        
+        this.response.cardRenderer(SKILL_CARD_TITLE, strip.stripTags(card), imageObj);
+        this.response.speak(speechOutput);
+                     //.listen(respeech);
+        this.emit(':responseReady');
+    },
+    'pressureIntent': function(){
+        var pointName;
+        
+        if (this.event.request.intent.slots.pointSlot.value)
+            pointName = this.event.request.intent.slots.pointSlot.value.toLowerCase();
+         
+                if (pointName == 'hand')
+                {
+                    let points = randomArrayElement(getBylocation('Hand'));
+                    this.attributes['pressure'] = points.tip;
+                    this.attributes['pressure'] = points.name;
+                    this.attributes['pressure'] = points.text;
+                    this.attributes['pressure'] = points.smallImage;
+                    this.attributes['pressure'] = points.largeImage;
+
+                    let speechOutput =  points.tip;
+                    let card = points.name +"\n" + points.text;
+                    let imageObj = {smallImageUrl: points.smallImage, largeImageUrl: points.largeImage};
+        
+                    this.response.cardRenderer(SKILL_CARD_TITLE, strip.stripTags(card), imageObj);
+        
+                    this.response.speak(speechOutput);
+                    this.emit(':responseReady');
+                }
+                else if (pointName == 'foot')
+                {
+                    let points = randomArrayElement(getBylocation('Foot'));
+                    this.attributes['pressure'] = points.tip;
+                    this.attributes['pressure'] = points.name;
+                    this.attributes['pressure'] = points.text;
+                    this.attributes['pressure'] = points.smallImage;
+                    this.attributes['pressure'] = points.largeImage;
+
+                    let speechOutput =  points.tip;
+                    let card = points.name +"\n" + points.text;
+                    let imageObj = {smallImageUrl: points.smallImage, largeImageUrl: points.largeImage};
+        
+                    this.response.cardRenderer(SKILL_CARD_TITLE, strip.stripTags(card), imageObj);
+        
+                    this.response.speak(speechOutput);
+                    this.emit(':responseReady');
+                }
+                else if (pointName == 'leg')
+                {
+                    let points = randomArrayElement(getBylocation('Leg'));
+                    this.attributes['pressure'] = points.tip;
+                    this.attributes['pressure'] = points.name;
+                    this.attributes['pressure'] = points.text;
+                    this.attributes['pressure'] = points.smallImage;
+                    this.attributes['pressure'] = points.largeImage;
+
+                    let speechOutput =  points.tip;
+                    let card = points.name +"\n" + points.text;
+                    let imageObj = {smallImageUrl: points.smallImage, largeImageUrl: points.largeImage};
+        
+                    this.response.cardRenderer(SKILL_CARD_TITLE, strip.stripTags(card), imageObj);
+        
+                    this.response.speak(speechOutput);
+                    this.emit(':responseReady');
+                }
+                else if (pointName == 'abdomen')
+                {
+                    let points = randomArrayElement(getBylocation('Abdomen'));
+                    this.attributes['pressure'] = points.tip;
+                    this.attributes['pressure'] = points.name;
+                    this.attributes['pressure'] = points.text;
+                    this.attributes['pressure'] = points.smallImage;
+                    this.attributes['pressure'] = points.largeImage;
+
+                    let speechOutput =  points.tip;
+                    let card = points.name +"\n" + points.text;
+                    let imageObj = {smallImageUrl: points.smallImage, largeImageUrl: points.largeImage};
+        
+                    this.response.cardRenderer(SKILL_CARD_TITLE, strip.stripTags(card), imageObj);
+        
+                    this.response.speak(speechOutput);
+                    this.emit(':responseReady');
+                }
+                else if (pointName == 'elbow')
+                {
+                    let points = randomArrayElement(getBylocation('Elbow'));
+                    this.attributes['pressure'] = points.tip;
+                    this.attributes['pressure'] = points.name;
+                    this.attributes['pressure'] = points.text;
+                    this.attributes['pressure'] = points.smallImage;
+                    this.attributes['pressure'] = points.largeImage;
+
+                    let speechOutput =  points.tip;
+                    let card = points.name +"\n" + points.text;
+                    let imageObj = {smallImageUrl: points.smallImage, largeImageUrl: points.largeImage};
+        
+                    this.response.cardRenderer(SKILL_CARD_TITLE, strip.stripTags(card), imageObj);
+        
+                    this.response.speak(speechOutput);
+                    this.emit(':responseReady');
+                }
+                else if (pointName == 'face')
+                {
+                    let points = randomArrayElement(getBylocation('Face'));
+                    this.attributes['pressure'] = points.tip;
+                    this.attributes['pressure'] = points.name;
+                    this.attributes['pressure'] = points.text;
+                    this.attributes['pressure'] = points.smallImage;
+                    this.attributes['pressure'] = points.largeImage;
+
+                    let speechOutput =  points.tip;
+                    let card = points.name +"\n" + points.text;
+                    let imageObj = {smallImageUrl: points.smallImage, largeImageUrl: points.largeImage};
+        
+                    this.response.cardRenderer(SKILL_CARD_TITLE, strip.stripTags(card), imageObj);
+        
+                    this.response.speak(speechOutput);
+                    this.emit(':responseReady');
+                }
+                else if (pointName == 'constipation')
+                {
+                    let points = randomArrayElement(getBySymptoms('Constipation'));
+                    this.attributes['pressure'] = points.tip;
+                    this.attributes['pressure'] = points.name;
+                    this.attributes['pressure'] = points.text;
+                    this.attributes['pressure'] = points.smallImage;
+                    this.attributes['pressure'] = points.largeImage;
+
+                    let speechOutput =  points.tip;
+                    let card = points.name +"\n" + points.text;
+                    let imageObj = {smallImageUrl: points.smallImage, largeImageUrl: points.largeImage};
+        
+                    this.response.cardRenderer(SKILL_CARD_TITLE, strip.stripTags(card), imageObj);
+        
+                    this.response.speak(speechOutput);
+                    this.emit(':responseReady');
+                }
+                else if (pointName == 'headache')
+                {
+                    let points = randomArrayElement(getBySymptoms('Headache'));
+                    this.attributes['pressure'] = points.tip;
+                    this.attributes['pressure'] = points.name;
+                    this.attributes['pressure'] = points.text;
+                    this.attributes['pressure'] = points.smallImage;
+                    this.attributes['pressure'] = points.largeImage;
+
+                    let speechOutput =  points.tip;
+                    let card = points.name +"\n" + points.text;
+                    let imageObj = {smallImageUrl: points.smallImage, largeImageUrl: points.largeImage};
+        
+                    this.response.cardRenderer(SKILL_CARD_TITLE, strip.stripTags(card), imageObj);
+        
+                    this.response.speak(speechOutput);
+                    this.emit(':responseReady');
+                }
+                else if (pointName == 'sinus pain')
+                {
+                    let points = randomArrayElement(getBySymptoms('Sinus Pain'));
+                    this.attributes['pressure'] = points.tip;
+                    this.attributes['pressure'] = points.name;
+                    this.attributes['pressure'] = points.text;
+                    this.attributes['pressure'] = points.smallImage;
+                    this.attributes['pressure'] = points.largeImage;
+
+                    let speechOutput =  points.tip;
+                    let card = points.name +"\n" + points.text;
+                    let imageObj = {smallImageUrl: points.smallImage, largeImageUrl: points.largeImage};
+        
+                    this.response.cardRenderer(SKILL_CARD_TITLE, strip.stripTags(card), imageObj);
+        
+                    this.response.speak(speechOutput);
+                    this.emit(':responseReady');
+                }
+                else if (pointName == 'eye tiredness')
+                {
+                    let points = randomArrayElement(getBySymptoms('Eye Tiredness'));
+                    this.attributes['pressure'] = points.tip;
+                    this.attributes['pressure'] = points.name;
+                    this.attributes['pressure'] = points.text;
+                    this.attributes['pressure'] = points.smallImage;
+                    this.attributes['pressure'] = points.largeImage;
+
+                    let speechOutput =  points.tip;
+                    let card = points.name +"\n" + points.text;
+                    let imageObj = {smallImageUrl: points.smallImage, largeImageUrl: points.largeImage};
+        
+                    this.response.cardRenderer(SKILL_CARD_TITLE, strip.stripTags(card), imageObj);
+        
+                    this.response.speak(speechOutput);
+                    this.emit(':responseReady');
+                }
+                else if (pointName == 'digestion')
+                {
+                    let points = randomArrayElement(getBySymptoms('Digestion'));
+                    this.attributes['pressure'] = points.tip;
+                    this.attributes['pressure'] = points.name;
+                    this.attributes['pressure'] = points.text;
+                    this.attributes['pressure'] = points.smallImage;
+                    this.attributes['pressure'] = points.largeImage;
+
+                    let speechOutput =  points.tip;
+                    let card = points.name +"\n" + points.text;
+                    let imageObj = {smallImageUrl: points.smallImage, largeImageUrl: points.largeImage};
+        
+                    this.response.cardRenderer(SKILL_CARD_TITLE, strip.stripTags(card), imageObj);
+        
+                    this.response.speak(speechOutput);
+                    this.emit(':responseReady');
+                }
+                else if (pointName == 'ulcers')
+                {
+                    let points = randomArrayElement(getBySymptoms('Ulcers'));
+                    this.attributes['pressure'] = points.tip;
+                    this.attributes['pressure'] = points.name;
+                    this.attributes['pressure'] = points.text;
+                    this.attributes['pressure'] = points.smallImage;
+                    this.attributes['pressure'] = points.largeImage;
+
+                    let speechOutput =  points.tip;
+                    let card = points.name +"\n" + points.text;
+                    let imageObj = {smallImageUrl: points.smallImage, largeImageUrl: points.largeImage};
+        
+                    this.response.cardRenderer(SKILL_CARD_TITLE, strip.stripTags(card), imageObj);
+        
+                    this.response.speak(speechOutput);
+                    this.emit(':responseReady');
+                }
+                else if (pointName == 'indigestion')
+                {
+                   let points = randomArrayElement(getBySymptoms('Indigestion'));
+                    this.attributes['pressure'] = points.tip;
+                    this.attributes['pressure'] = points.name;
+                    this.attributes['pressure'] = points.text;
+                    this.attributes['pressure'] = points.smallImage;
+                    this.attributes['pressure'] = points.largeImage;
+
+                    let speechOutput =  points.tip;
+                    let card = points.name +"\n" + points.text;
+                    let imageObj = {smallImageUrl: points.smallImage, largeImageUrl: points.largeImage};
+        
+                    this.response.cardRenderer(SKILL_CARD_TITLE, strip.stripTags(card), imageObj);
+        
+                    this.response.speak(speechOutput);
+                    this.emit(':responseReady');
+                }
+                else if (pointName == 'sciatica')
+                {
+                    let points = randomArrayElement(getBySymptoms('Sciatica'));
+                    this.attributes['pressure'] = points.tip;
+                    this.attributes['pressure'] = points.name;
+                    this.attributes['pressure'] = points.text;
+                    this.attributes['pressure'] = points.smallImage;
+                    this.attributes['pressure'] = points.largeImage;
+
+                    let speechOutput =  points.tip;
+                    let card = points.name +"\n" + points.text;
+                    let imageObj = {smallImageUrl: points.smallImage, largeImageUrl: points.largeImage};
+        
+                    this.response.cardRenderer(SKILL_CARD_TITLE, strip.stripTags(card), imageObj);
+        
+                    this.response.speak(speechOutput);
+                    this.emit(':responseReady');
+                }
+                else if (pointName == 'neck pain')
+                {
+                    let points = randomArrayElement(getBySymptoms('Neck Pain'));
+                    this.attributes['pressure'] = points.tip;
+                    this.attributes['pressure'] = points.name;
+                    this.attributes['pressure'] = points.text;
+                    this.attributes['pressure'] = points.smallImage;
+                    this.attributes['pressure'] = points.largeImage;
+
+                    let speechOutput =  points.tip;
+                    let card = points.name +"\n" + points.text;
+                    let imageObj = {smallImageUrl: points.smallImage, largeImageUrl: points.largeImage};
+        
+                    this.response.cardRenderer(SKILL_CARD_TITLE, strip.stripTags(card), imageObj);
+        
+                    this.response.speak(speechOutput);
+                    this.emit(':responseReady');
+                }
+                else if (pointName == 'back pain')
+                {
+                   let points = randomArrayElement(getBySymptoms('Back Pain'));
+                    this.attributes['pressure'] = points.tip;
+                    this.attributes['pressure'] = points.name;
+                    this.attributes['pressure'] = points.text;
+                    this.attributes['pressure'] = points.smallImage;
+                    this.attributes['pressure'] = points.largeImage;
+
+                    let speechOutput =  points.tip;
+                    let card = points.name +"\n" + points.text;
+                    let imageObj = {smallImageUrl: points.smallImage, largeImageUrl: points.largeImage};
+        
+                    this.response.cardRenderer(SKILL_CARD_TITLE, strip.stripTags(card), imageObj);
+        
+                    this.response.speak(speechOutput);
+                    this.emit(':responseReady');
+                }
+                else if (pointName == 'arthritis')
+                {
+                    let points = randomArrayElement(getBySymptoms('arthritis'));
+                    this.attributes['pressure'] = points.tip;
+                    this.attributes['pressure'] = points.name;
+                    this.attributes['pressure'] = points.text;
+                    this.attributes['pressure'] = points.smallImage;
+                    this.attributes['pressure'] = points.largeImage;
+
+                    let speechOutput =  points.tip;
+                    let card = points.name +"\n" + points.text;
+                    let imageObj = {smallImageUrl: points.smallImage, largeImageUrl: points.largeImage};
+        
+                    this.response.cardRenderer(SKILL_CARD_TITLE, strip.stripTags(card), imageObj);
+        
+                    this.response.speak(speechOutput);
+                    this.emit(':responseReady');
+                }
+                else if (pointName == 'dizziness')
+                {
+                    let points = randomArrayElement(getBySymptoms('Dizziness'));
+                    this.attributes['pressure'] = points.tip;
+                    this.attributes['pressure'] = points.name;
+                    this.attributes['pressure'] = points.text;
+                    this.attributes['pressure'] = points.smallImage;
+                    this.attributes['pressure'] = points.largeImage;
+
+                    let speechOutput =  points.tip;
+                    let card = points.name +"\n" + points.text;
+                    let imageObj = {smallImageUrl: points.smallImage, largeImageUrl: points.largeImage};
+        
+                    this.response.cardRenderer(SKILL_CARD_TITLE, strip.stripTags(card), imageObj);
+        
+                    this.response.speak(speechOutput);
+                    this.emit(':responseReady');
+                }
+                else if (pointName == 'water waste')
+                {
+                    let points = randomArrayElement(getBySymptoms('Water Waste'));
+                    this.attributes['pressure'] = points.tip;
+                    this.attributes['pressure'] = points.name;
+                    this.attributes['pressure'] = points.text;
+                    this.attributes['pressure'] = points.smallImage;
+                    this.attributes['pressure'] = points.largeImage;
+
+                    let speechOutput =  points.tip;
+                    let card = points.name +"\n" + points.text;
+                    let imageObj = {smallImageUrl: points.smallImage, largeImageUrl: points.largeImage};
+        
+                    this.response.cardRenderer(SKILL_CARD_TITLE, strip.stripTags(card), imageObj);
+        
+                    this.response.speak(speechOutput);
+                    this.emit(':responseReady');
+                }
+                else if (pointName == 'foot pain')
+                {
+                    let points = randomArrayElement(getBySymptoms('Foot Pain'));
+                    this.attributes['pressure'] = points.tip;
+                    this.attributes['pressure'] = points.name;
+                    this.attributes['pressure'] = points.text;
+                    this.attributes['pressure'] = points.smallImage;
+                    this.attributes['pressure'] = points.largeImage;
+
+                    let speechOutput =  points.tip;
+                    let card = points.name +"\n" + points.text;
+                    let imageObj = {smallImageUrl: points.smallImage, largeImageUrl: points.largeImage};
+        
+                    this.response.cardRenderer(SKILL_CARD_TITLE, strip.stripTags(card), imageObj);
+        
+                    this.response.speak(speechOutput);
+                    this.emit(':responseReady');
+                }
+                else if (pointName == 'migraines')
+                {
+                    let points = randomArrayElement(getBySymptoms('Migraines'));
+                    this.attributes['pressure'] = points.tip;
+                    this.attributes['pressure'] = points.name;
+                    this.attributes['pressure'] = points.text;
+                    this.attributes['pressure'] = points.smallImage;
+                    this.attributes['pressure'] = points.largeImage;
+
+                    let speechOutput =  points.tip;
+                    let card = points.name +"\n" + points.text;
+                    let imageObj = {smallImageUrl: points.smallImage, largeImageUrl: points.largeImage};
+        
+                    this.response.cardRenderer(SKILL_CARD_TITLE, strip.stripTags(card), imageObj);
+        
+                    this.response.speak(speechOutput);
+                    this.emit(':responseReady');
+                }
+                else if (pointName == 'stress')
+                {
+                    let points = randomArrayElement(getBySymptoms('Stress'));
+                    this.attributes['pressure'] = points.tip;
+                    this.attributes['pressure'] = points.name;
+                    this.attributes['pressure'] = points.text;
+                    this.attributes['pressure'] = points.smallImage;
+                    this.attributes['pressure'] = points.largeImage;
+
+                    let speechOutput =  points.tip;
+                    let card = points.name +"\n" + points.text;
+                    let imageObj = {smallImageUrl: points.smallImage, largeImageUrl: points.largeImage};
+        
+                    this.response.cardRenderer(SKILL_CARD_TITLE, strip.stripTags(card), imageObj);
+        
+                    this.response.speak(speechOutput);
+                    this.emit(':responseReady');
+                }
+                else if (pointName == 'stomach pain')
+                {
+                   let points = randomArrayElement(getBySymptoms('Stomach Pain'));
+                    this.attributes['pressure'] = points.tip;
+                    this.attributes['pressure'] = points.name;
+                    this.attributes['pressure'] = points.text;
+                    this.attributes['pressure'] = points.smallImage;
+                    this.attributes['pressure'] = points.largeImage;
+
+                    let speechOutput =  points.tip;
+                    let card = points.name +"\n" + points.text;
+                    let imageObj = {smallImageUrl: points.smallImage, largeImageUrl: points.largeImage};
+        
+                    this.response.cardRenderer(SKILL_CARD_TITLE, strip.stripTags(card), imageObj);
+        
+                    this.response.speak(speechOutput);
+                    this.emit(':responseReady');
+                }
+                else if (pointName == 'nausea')
+                {
+                    let points = randomArrayElement(getBySymptoms('Nausea'));
+                    this.attributes['pressure'] = points.tip;
+                    this.attributes['pressure'] = points.name;
+                    this.attributes['pressure'] = points.text;
+                    this.attributes['pressure'] = points.smallImage;
+                    this.attributes['pressure'] = points.largeImage;
+
+                    let speechOutput =  points.tip;
+                    let card = points.name +"\n" + points.text;
+                    let imageObj = {smallImageUrl: points.smallImage, largeImageUrl: points.largeImage};
+        
+                    this.response.cardRenderer(SKILL_CARD_TITLE, strip.stripTags(card), imageObj);
+        
+                    this.response.speak(speechOutput);
+                    this.emit(':responseReady');
+                }
+                else if (pointName == 'anxiety')
+                {
+                    let points = randomArrayElement(getBySymptoms('Anxiety'));
+                    this.attributes['pressure'] = points.tip;
+                    this.attributes['pressure'] = points.name;
+                    this.attributes['pressure'] = points.text;
+                    this.attributes['pressure'] = points.smallImage;
+                    this.attributes['pressure'] = points.largeImage;
+
+                    let speechOutput =  points.tip;
+                    let card = points.name +"\n" + points.text;
+                    let imageObj = {smallImageUrl: points.smallImage, largeImageUrl: points.largeImage};
+        
+                    this.response.cardRenderer(SKILL_CARD_TITLE, strip.stripTags(card), imageObj);
+        
+                    this.response.speak(speechOutput);
+                    this.emit(':responseReady');
+                }
+                else if (pointName == 'breathing problems')
+                {
+                    let points = randomArrayElement(getBySymptoms('Breathing Problems'));
+                    this.attributes['pressure'] = points.tip;
+                    this.attributes['pressure'] = points.name;
+                    this.attributes['pressure'] = points.text;
+                    this.attributes['pressure'] = points.smallImage;
+                    this.attributes['pressure'] = points.largeImage;
+
+                    let speechOutput =  points.tip;
+                    let card = points.name +"\n" + points.text;
+                    let imageObj = {smallImageUrl: points.smallImage, largeImageUrl: points.largeImage};
+        
+                    this.response.cardRenderer(SKILL_CARD_TITLE, strip.stripTags(card), imageObj);
+        
+                    this.response.speak(speechOutput);
+                    this.emit(':responseReady');
+                }
+                else if (pointName == 'coughing')
+                {
+                    let points = randomArrayElement(getBySymptoms('Coughing'));
+                    this.attributes['pressure'] = points.tip;
+                    this.attributes['pressure'] = points.name;
+                    this.attributes['pressure'] = points.text;
+                    this.attributes['pressure'] = points.smallImage;
+                    this.attributes['pressure'] = points.largeImage;
+
+                    let speechOutput =  points.tip;
+                    let card = points.name +"\n" + points.text;
+                    let imageObj = {smallImageUrl: points.smallImage, largeImageUrl: points.largeImage};
+        
+                    this.response.cardRenderer(SKILL_CARD_TITLE, strip.stripTags(card), imageObj);
+        
+                    this.response.speak(speechOutput);
+                    this.emit(':responseReady');
+                }
+                else if (pointName == 'emotional state')
+                {
+                    let points = randomArrayElement(getBySymptoms('Emotional State'));
+                    this.attributes['pressure'] = points.tip;
+                    this.attributes['pressure'] = points.name;
+                    this.attributes['pressure'] = points.text;
+                    this.attributes['pressure'] = points.smallImage;
+                    this.attributes['pressure'] = points.largeImage;
+
+                    let speechOutput =  points.tip;
+                    let card = points.name +"\n" + points.text;
+                    let imageObj = {smallImageUrl: points.smallImage, largeImageUrl: points.largeImage};
+        
+                    this.response.cardRenderer(SKILL_CARD_TITLE, strip.stripTags(card), imageObj);
+        
+                    this.response.speak(speechOutput);
+                    this.emit(':responseReady');
+                }
+                else if (pointName == 'rib pain')
+                {
+                    let points = randomArrayElement(getBySymptoms('Rib Pain'));
+                    this.attributes['pressure'] = points.tip;
+                    this.attributes['pressure'] = points.name;
+                    this.attributes['pressure'] = points.text;
+                    this.attributes['pressure'] = points.smallImage;
+                    this.attributes['pressure'] = points.largeImage;
+
+                    let speechOutput =  points.tip;
+                    let card = points.name +"\n" + points.text;
+                    let imageObj = {smallImageUrl: points.smallImage, largeImageUrl: points.largeImage};
+        
+                    this.response.cardRenderer(SKILL_CARD_TITLE, strip.stripTags(card), imageObj);
+        
+                    this.response.speak(speechOutput);
+                    this.emit(':responseReady');
+                }
+                else if (pointName == 'appetite')
+                {
+                    let points = randomArrayElement(getBySymptoms('Appetite'));
+                    this.attributes['pressure'] = points.tip;
+                    this.attributes['pressure'] = points.name;
+                    this.attributes['pressure'] = points.text;
+                    this.attributes['pressure'] = points.smallImage;
+                    this.attributes['pressure'] = points.largeImage;
+
+                    let speechOutput =  points.tip;
+                    let card = points.name +"\n" + points.text;
+                    let imageObj = {smallImageUrl: points.smallImage, largeImageUrl: points.largeImage};
+        
+                    this.response.cardRenderer(SKILL_CARD_TITLE, strip.stripTags(card), imageObj);
+        
+                    this.response.speak(speechOutput);
+                    this.emit(':responseReady');
+                }
+                else if (pointName == 'hand valley point')
+                {
+                    let points = randomArrayElement(getByName('Hand Valley Point'));
+                    this.attributes['pressure'] = points.tip;
+                    this.attributes['pressure'] = points.name;
+                    this.attributes['pressure'] = points.text;
+                    this.attributes['pressure'] = points.smallImage;
+                    this.attributes['pressure'] = points.largeImage;
+
+                    let speechOutput =  points.tip;
+                    let card = points.name +"\n" + points.text;
+                    let imageObj = {smallImageUrl: points.smallImage, largeImageUrl: points.largeImage};
+        
+                    this.response.cardRenderer(SKILL_CARD_TITLE, strip.stripTags(card), imageObj);
+        
+                    this.response.speak(speechOutput);
+                    this.emit(':responseReady');
+                }
+                else if (pointName == 'base of thumb point')
+                {
+                    let points = randomArrayElement(getByName('Base of Thumb Point'));
+                    this.attributes['pressure'] = points.tip;
+                    this.attributes['pressure'] = points.name;
+                    this.attributes['pressure'] = points.text;
+                    this.attributes['pressure'] = points.smallImage;
+                    this.attributes['pressure'] = points.largeImage;
+
+                    let speechOutput =  points.tip;
+                    let card = points.name +"\n" + points.text;
+                    let imageObj = {smallImageUrl: points.smallImage, largeImageUrl: points.largeImage};
+        
+                    this.response.cardRenderer(SKILL_CARD_TITLE, strip.stripTags(card), imageObj);
+        
+                    this.response.speak(speechOutput);
+                    this.emit(':responseReady');
+                }
+                else if (pointName == 'wrist point')
+                {
+                    let points = randomArrayElement(getByName('Wrist Point'));
+                    this.attributes['pressure'] = points.tip;
+                    this.attributes['pressure'] = points.name;
+                    this.attributes['pressure'] = points.text;
+                    this.attributes['pressure'] = points.smallImage;
+                    this.attributes['pressure'] = points.largeImage;
+
+                    let speechOutput =  points.tip;
+                    let card = points.name +"\n" + points.text;
+                    let imageObj = {smallImageUrl: points.smallImage, largeImageUrl: points.largeImage};
+        
+                    this.response.cardRenderer(SKILL_CARD_TITLE, strip.stripTags(card), imageObj);
+        
+                    this.response.speak(speechOutput);
+                    this.emit(':responseReady');
+                }
+                else if (pointName == 'inner gate point')
+                {
+                    let points = randomArrayElement(getByName('Inner Gate Point'));
+                    this.attributes['pressure'] = points.tip;
+                    this.attributes['pressure'] = points.name;
+                    this.attributes['pressure'] = points.text;
+                    this.attributes['pressure'] = points.smallImage;
+                    this.attributes['pressure'] = points.largeImage;
+
+                    let speechOutput =  points.tip;
+                    let card = points.name +"\n" + points.text;
+                    let imageObj = {smallImageUrl: points.smallImage, largeImageUrl: points.largeImage};
+        
+                    this.response.cardRenderer(SKILL_CARD_TITLE, strip.stripTags(card), imageObj);
+        
+                    this.response.speak(speechOutput);
+                    this.emit(':responseReady');
+                }
+                else if (pointName == 'large intestine point')
+                {
+                    let points = randomArrayElement(getByName('Large Intestine Point'));
+                    this.attributes['pressure'] = points.tip;
+                    this.attributes['pressure'] = points.name;
+                    this.attributes['pressure'] = points.text;
+                    this.attributes['pressure'] = points.smallImage;
+                    this.attributes['pressure'] = points.largeImage;
+
+                    let speechOutput =  points.tip;
+                    let card = points.name +"\n" + points.text;
+                    let imageObj = {smallImageUrl: points.smallImage, largeImageUrl: points.largeImage};
+        
+                    this.response.cardRenderer(SKILL_CARD_TITLE, strip.stripTags(card), imageObj);
+        
+                    this.response.speak(speechOutput);
+                    this.emit(':responseReady');
+                }
+                else if (pointName == 'big rushing point')
+                {
+                    let points = randomArrayElement(getByName('Big Rushing Point'));
+                    this.attributes['pressure'] = points.tip;
+                    this.attributes['pressure'] = points.name;
+                    this.attributes['pressure'] = points.text;
+                    this.attributes['pressure'] = points.smallImage;
+                    this.attributes['pressure'] = points.largeImage;
+
+                    let speechOutput =  points.tip;
+                    let card = points.name +"\n" + points.text;
+                    let imageObj = {smallImageUrl: points.smallImage, largeImageUrl: points.largeImage};
+        
+                    this.response.cardRenderer(SKILL_CARD_TITLE, strip.stripTags(card), imageObj);
+        
+                    this.response.speak(speechOutput);
+                    this.emit(':responseReady');
+                }
+                else if (pointName == 'above tears point')
+                {
+                    let points = randomArrayElement(getByName('Above Tears Point'));
+                    this.attributes['pressure'] = points.tip;
+                    this.attributes['pressure'] = points.name;
+                    this.attributes['pressure'] = points.text;
+                    this.attributes['pressure'] = points.smallImage;
+                    this.attributes['pressure'] = points.largeImage;
+
+                    let speechOutput =  points.tip;
+                    let card = points.name +"\n" + points.text;
+                    let imageObj = {smallImageUrl: points.smallImage, largeImageUrl: points.largeImage};
+        
+                    this.response.cardRenderer(SKILL_CARD_TITLE, strip.stripTags(card), imageObj);
+        
+                    this.response.speak(speechOutput);
+                    this.emit(':responseReady');
+                }
+                else if (pointName == 'kidney 1 point')
+                {
+                    let points = randomArrayElement(getByName('Kidney 1 Point'));
+                    this.attributes['pressure'] = points.tip;
+                    this.attributes['pressure'] = points.name;
+                    this.attributes['pressure'] = points.text;
+                    this.attributes['pressure'] = points.smallImage;
+                    this.attributes['pressure'] = points.largeImage;
+
+                    let speechOutput =  points.tip;
+                    let card = points.name +"\n" + points.text;
+                    let imageObj = {smallImageUrl: points.smallImage, largeImageUrl: points.largeImage};
+        
+                    this.response.cardRenderer(SKILL_CARD_TITLE, strip.stripTags(card), imageObj);
+        
+                    this.response.speak(speechOutput);
+                    this.emit(':responseReady');
+                }
+                else if (pointName == 'ankle point')
+                {
+                    let points = randomArrayElement(getByName('Ankle Point'));
+                    this.attributes['pressure'] = points.tip;
+                    this.attributes['pressure'] = points.name;
+                    this.attributes['pressure'] = points.text;
+                    this.attributes['pressure'] = points.smallImage;
+                    this.attributes['pressure'] = points.largeImage;
+
+                    let speechOutput =  points.tip;
+                    let card = points.name +"\n" + points.text;
+                    let imageObj = {smallImageUrl: points.smallImage, largeImageUrl: points.largeImage};
+        
+                    this.response.cardRenderer(SKILL_CARD_TITLE, strip.stripTags(card), imageObj);
+        
+                    this.response.speak(speechOutput);
+                    this.emit(':responseReady');
+                }
+                else if (pointName == 'three mile point')
+                {
+                    let points = randomArrayElement(getByName('Three Mile Point'));
+                    this.attributes['pressure'] = points.tip;
+                    this.attributes['pressure'] = points.name;
+                    this.attributes['pressure'] = points.text;
+                    this.attributes['pressure'] = points.smallImage;
+                    this.attributes['pressure'] = points.largeImage;
+
+                    let speechOutput =  points.tip;
+                    let card = points.name +"\n" + points.text;
+                    let imageObj = {smallImageUrl: points.smallImage, largeImageUrl: points.largeImage};
+        
+                    this.response.cardRenderer(SKILL_CARD_TITLE, strip.stripTags(card), imageObj);
+        
+                    this.response.speak(speechOutput);
+                    this.emit(':responseReady');
+                }
+                else if (pointName == 'commanding middle points')
+                {
+                    let points = randomArrayElement(getByName('Commanding Middle Points'));
+                    this.attributes['pressure'] = points.tip;
+                    this.attributes['pressure'] = points.name;
+                    this.attributes['pressure'] = points.text;
+                    this.attributes['pressure'] = points.smallImage;
+                    this.attributes['pressure'] = points.largeImage;
+
+                    let speechOutput =  points.tip;
+                    let card = points.name +"\n" + points.text;
+                    let imageObj = {smallImageUrl: points.smallImage, largeImageUrl: points.largeImage};
+        
+                    this.response.cardRenderer(SKILL_CARD_TITLE, strip.stripTags(card), imageObj);
+        
+                    this.response.speak(speechOutput);
+                    this.emit(':responseReady');
+                }
+                else if (pointName == 'abdominal sorrow point')
+                {
+                    let points = randomArrayElement(getByName('Abdominal Sorrow Point'));
+                    this.attributes['pressure'] = points.tip;
+                    this.attributes['pressure'] = points.name;
+                    this.attributes['pressure'] = points.text;
+                    this.attributes['pressure'] = points.smallImage;
+                    this.attributes['pressure'] = points.largeImage;
+
+                    let speechOutput =  points.tip;
+                    let card = points.name +"\n" + points.text;
+                    let imageObj = {smallImageUrl: points.smallImage, largeImageUrl: points.largeImage};
+        
+                    this.response.cardRenderer(SKILL_CARD_TITLE, strip.stripTags(card), imageObj);
+        
+                    this.response.speak(speechOutput);
+                    this.emit(':responseReady');
+                }
+                else if (pointName == 'sea of energy point')
+                {
+                    let points = randomArrayElement(getByName('Sea of Energy Point'));
+                    this.attributes['pressure'] = points.tip;
+                    this.attributes['pressure'] = points.name;
+                    this.attributes['pressure'] = points.text;
+                    this.attributes['pressure'] = points.smallImage;
+                    this.attributes['pressure'] = points.largeImage;
+
+                    let speechOutput =  points.tip;
+                    let card = points.name +"\n" + points.text;
+                    let imageObj = {smallImageUrl: points.smallImage, largeImageUrl: points.largeImage};
+        
+                    this.response.cardRenderer(SKILL_CARD_TITLE, strip.stripTags(card), imageObj);
+        
+                    this.response.speak(speechOutput);
+                    this.emit(':responseReady');
+                }
+                else if (pointName == 'third eye point')
+                {
+                    let points = randomArrayElement(getByName('Third Eye Point'));
+                    this.attributes['pressure'] = points.tip;
+                    this.attributes['pressure'] = points.name;
+                    this.attributes['pressure'] = points.text;
+                    this.attributes['pressure'] = points.smallImage;
+                    this.attributes['pressure'] = points.largeImage;
+
+                    let speechOutput =  points.tip;
+                    let card = points.name +"\n" + points.text;
+                    let imageObj = {smallImageUrl: points.smallImage, largeImageUrl: points.largeImage};
+        
+                    this.response.cardRenderer(SKILL_CARD_TITLE, strip.stripTags(card), imageObj);
+        
+                    this.response.speak(speechOutput);
+                    this.emit(':responseReady');
+                }
+                else if (pointName == 'drilling bamboo points')
+                {
+                    let points = randomArrayElement(getByName('Drilling Bamboo Points'));
+                    this.attributes['pressure'] = points.tip;
+                    this.attributes['pressure'] = points.name;
+                    this.attributes['pressure'] = points.text;
+                    this.attributes['pressure'] = points.smallImage;
+                    this.attributes['pressure'] = points.largeImage;
+
+                    let speechOutput =  points.tip;
+                    let card = points.name +"\n" + points.text;
+                    let imageObj = {smallImageUrl: points.smallImage, largeImageUrl: points.largeImage};
+        
+                    this.response.cardRenderer(SKILL_CARD_TITLE, strip.stripTags(card), imageObj);
+        
+                    this.response.speak(speechOutput);
+                    this.emit(':responseReady');
+                }
+                else
+                {
+                    var speechOutput =  'You can ask for a pressure point hack based on your need\n Such as Stress, Dizziness, and Sciatica. Or you can say random or based on the a part of the body, enclosed is a complete list in the Skill Card... \nWhich would you like?';
+                    var repromptSpeech = HELP_REPROMPT;
+                    var examplesPhrases = 'You can ask for a pressure point hack based on your need\n Such as Stress, Dizziness, Sinus Pain, Eye Tiredness,\n Back pain, Digestion, Appetite, Constipation,\n Neck Pain, Breathing Problems, Nausea, Stomach Pain,\n Headache, Sciatica, Arthritis, Water Waste, and Anxiety.\n You can also request a pressure point based on the\n a part of you body such as leg, face, elbow, foot, and abdominal. \nWhich would you like?';
+                    var imageObj = {
+                        smallImageUrl: 'https://s3.amazonaws.com/pressurepointhack/yinYangSM.png',
+                        largeImageUrl: 'https://s3.amazonaws.com/pressurepointhack/yinYang.png'
+                    };
+                    this.emit(':askWithCard', speechOutput, repromptSpeech, HELP_PROMPT, examplesPhrases, imageObj);
+                }
+    },
+    'homeIntent': function () {
+      if(supportsDisplay.call(this)||isSimulator.call(this)) {
+          console.log("has display:"+ supportsDisplay.call(this));
+          console.log("is simulator:"+isSimulator.call(this));
+          var content = {
+             "templateToken" : "factBodyTemplate",
+             "listItems": "listItems",
+             "askOrTell" : ":ask",
+             "sessionAttributes": this.attributes
+          };
+          renderTemplate.call(this, content);
+          } else {
+        this.emit('PressurePointHack');
+      }
+    },
+    'AMAZON.PreviousIntent': function () {
+      if(supportsDisplay.call(this)||isSimulator.call(this)) {
+          console.log("has display:"+ supportsDisplay.call(this));
+          console.log("is simulator:"+isSimulator.call(this));
+          var content = {
+             "templateToken" : "factBodyTemplate",
+             "listItems": "listItems",
+             "askOrTell" : ":ask",
+             "sessionAttributes": this.attributes
+          };
+          renderTemplate.call(this, content);
+          } else {
+        this.emit('PressurePointHack');
+      }
+    },
+     'AMAZON.MoreIntent': function () {
+      this.emit('PressurePointHack');
+    },
+     'Unhandled': function (){
+        var speechOutput =  'You can ask for a pressure point hack based on your need\n Such as Stress, Dizziness, and Sciatica. Or you can say random or based on the a part of the body, enclosed is a complete list in the Skill Card... \nWhich would you like?';
+        var repromptSpeech = HELP_REPROMPT;
+        var examplesPhrases = 'You can ask for a pressure point hack based on your need\n Such as Stress, Dizziness, Sinus Pain, Eye Tiredness,\n Back pain, Digestion, Appetite, Constipation,\n Neck Pain, Breathing Problems, Nausea, Stomach Pain,\n Headache, Sciatica, Arthritis, Water Waste, and Anxiety.\n You can also request a pressure point based on the\n a part of you body such as leg, face, elbow, foot, and abdominal. \nWhich would you like?';
+        var imageObj = {
+        smallImageUrl: 'https://s3.amazonaws.com/pressurepointhack/yinYangSM.png',
+        largeImageUrl: 'https://s3.amazonaws.com/pressurepointhack/yinYang.png'
+        };
+        this.emit(':askWithCard', speechOutput, repromptSpeech, HELP_PROMPT, examplesPhrases, imageObj);
+   },
+    'AMAZON.HelpIntent': function () {
+       var speechOutput =  'You can ask for a pressure point hack based on your need\n Such as Stress, Dizziness, and Sciatica. Or you can say random or based on the a part of the body, enclosed is a complete list in the Skill Card... \nWhich would you like?';
+       var repromptSpeech = HELP_REPROMPT;
+       var examplesPhrases = 'You can ask for a pressure point hack based on your need\n Such as Stress, Dizziness, Sinus Pain, Eye Tiredness,\n Back pain, Digestion, Appetite, Constipation,\n Neck Pain, Breathing Problems, Nausea, Stomach Pain,\n Headache, Sciatica, Arthritis, Water Waste, and Anxiety.\n You can also request a pressure point based on the\n a part of you body such as leg, face, elbow, foot, and abdominal. \nWhich would you like?';
+       var imageObj = {
+       smallImageUrl: 'https://s3.amazonaws.com/pressurepointhack/yinYangSM.png',
+       largeImageUrl: 'https://s3.amazonaws.com/pressurepointhack/yinYang.png'
+       };
+       this.emit(':askWithCard', speechOutput, repromptSpeech, HELP_PROMPT, examplesPhrases, imageObj);
+    },
+    'AMAZON.CancelIntent': function () {
+        var goodByesArr = goodByes;
+        var goodByesIndex = Math.floor(Math.random() * goodByes.length);
+        var goodByesFacts = goodByesArr[goodByesIndex];
+        var speechOut = STOP_MESSAGE + goodByesFacts;
+        this.emit(':tell', speechOut);
+    },
+    'AMAZON.StopIntent': function () {
+        var goodByesArr = goodByes;
+        var goodByesIndex = Math.floor(Math.random() * goodByes.length);
+        var goodByesFacts = goodByesArr[goodByesIndex];
+        var speechOut = STOP_MESSAGE + goodByesFacts;
+        this.emit(':tell', speechOut);
+    },
+  'ElementSelected': function () {
+        if (this.event.request.token == "1") 
+        {
+            const bodyTemplate3 = new Alexa.templateBuilders.BodyTemplate3Builder();
+                    
+            var template1 = bodyTemplate3.setTitle("Hand Valley Point")
+                                .setTextContent(makePlainText("The Hand Valley Point is situated in between your Thumb and Pointer Finger. The exact spot where you find the Hand Valley Point is the active place between the Thumb and Index Finger, you can also review the image in the skill card."))
+                                .setImage(makeImage('https://s3.amazonaws.com/pressurepointhack/handValleyPoint.png'))
+                                .build();
+                                
+            this.response.speak("The Hand Valley Point, please review the display in the skill card. Let's hold this position for 60 seconds time is starting in, 5, 4, 3, 2, 1" + BREAK + "<audio src='https://s3.amazonaws.com/pressurepointhack/spa30.mp3' />" + "<amazon:effect name='whispered'>Twenty more seconds to go!</amazon:effect>" + "<audio src='https://s3.amazonaws.com/pressurepointhack/spa30.mp3' />" + "Great Job your all done!")
+                                .renderTemplate(template1)
+                                .shouldEndSession(true);
+            this.emit(":responseReady");
+        }
+        else if (this.event.request.token == "2") 
+        {
+        const bodyTemplate3 = new Alexa.templateBuilders.BodyTemplate3Builder();
+                    
+            var template2 = bodyTemplate3.setTitle("Base of Thumb Point")
+                                .setTextContent(makePlainText("The Base of Thumb point is situated in base of your thumb above the wrist. Firmly press with your other thumb on the spot shown in the skill card."))
+                                .setImage(makeImage('https://s3.amazonaws.com/pressurepointhack/baseOfThePoint.png'))
+                                .build();
+                                
+            this.response.speak("The Base of Thumb Point, please review the display in the skill card. Let's hold this position for 60 seconds time is starting in, 5, 4, 3, 2, 1" + BREAK + "<audio src='https://s3.amazonaws.com/pressurepointhack/spa30.mp3' />" + "<amazon:effect name='whispered'>Twenty more seconds to go!</amazon:effect>" + "<audio src='https://s3.amazonaws.com/pressurepointhack/spa30.mp3' />" + "Great Job your all done!")
+                                .renderTemplate(template2)
+                                .shouldEndSession(true);
+            this.emit(":responseReady");
+        }
+        else if (this.event.request.token == "3") 
+        {
+        const bodyTemplate3 = new Alexa.templateBuilders.BodyTemplate3Builder();
+                    
+            var template3 = bodyTemplate3.setTitle("Wrist Point")
+                                .setTextContent(makePlainText("The Wrist Point on your wrist will line up with little finger. You can easily find the exact Wrist Point spot by looking at the skill card."))
+                                .setImage(makeImage('https://s3.amazonaws.com/pressurepointhack/wristPoint.png'))
+                                .build();
+                                
+            this.response.speak("The Wrist Point, please review the display in the skill card. Let's hold this position for 60 seconds time is starting in, 5, 4, 3, 2, 1" + BREAK + "<audio src='https://s3.amazonaws.com/pressurepointhack/spa30.mp3' />" + "<amazon:effect name='whispered'>Twenty more seconds to go!</amazon:effect>" + "<audio src='https://s3.amazonaws.com/pressurepointhack/spa30.mp3' />" + "Great Job your all done!")
+                                .renderTemplate(template3)
+                                .shouldEndSession(true);
+            this.emit(":responseReady");
+        }
+        else if (this.event.request.token == "4") 
+        {
+        const bodyTemplate3 = new Alexa.templateBuilders.BodyTemplate3Builder();
+                    
+            var template4 = bodyTemplate3.setTitle("Inner Gate Point")
+                                .setTextContent(makePlainText("The Inner Gate Point is on your wrist. Find exact pressure point about three centimeters distance from wrist bend, you can also review the image in the skill card."))
+                                .setImage(makeImage('https://s3.amazonaws.com/pressurepointhack/innerGatePoint.png'))
+                                .build();
+                                
+            this.response.speak("The Inner Gate Point, please review the display in the skill card. Let's hold this position for 60 seconds time is starting in, 5, 4, 3, 2, 1" + BREAK + "<audio src='https://s3.amazonaws.com/pressurepointhack/spa30.mp3' />" + "<amazon:effect name='whispered'>Twenty more seconds to go!</amazon:effect>" + "<audio src='https://s3.amazonaws.com/pressurepointhack/spa30.mp3' />" + "Great Job your all done!")
+                                .renderTemplate(template4)
+                                .shouldEndSession(true);
+            this.emit(":responseReady");
+        }
+        else if (this.event.request.token == "5") 
+        {
+        const bodyTemplate3 = new Alexa.templateBuilders.BodyTemplate3Builder();
+                    
+            var template5 = bodyTemplate3.setTitle("Large Intestine Point")
+                                .setTextContent(makePlainText("To find the Large Intestine Point bend your arm at the elbow and put it on your chest. Find the exact point by moving your thumb of the another hand from elbow to inner side, you can also review the image in the skill card."))
+                                .setImage(makeImage('https://s3.amazonaws.com/pressurepointhack/largeIntestinePoint.png'))
+                                .build();
+                                
+            this.response.speak("The Large Intestine Point, please review the display in the skill card. Let's hold this position for 60 seconds time is starting in, 5, 4, 3, 2, 1" + BREAK + "<audio src='https://s3.amazonaws.com/pressurepointhack/spa30.mp3' />" + "<amazon:effect name='whispered'>Twenty more seconds to go!</amazon:effect>" + "<audio src='https://s3.amazonaws.com/pressurepointhack/spa30.mp3' />" + "Great Job your all done!")
+                                .renderTemplate(template5)
+                                .shouldEndSession(true);
+            this.emit(":responseReady");
+        }
+        else if (this.event.request.token == "6") 
+        {
+       const bodyTemplate3 = new Alexa.templateBuilders.BodyTemplate3Builder();
+                    
+            var template6 = bodyTemplate3.setTitle("Big Rushing Point")
+                                .setTextContent(makePlainText("The Big Rushing Point is located in the valley of Big Toe and the second Toe, one and half inches distance from Toes in the valley, you can also review the image in the skill card."))
+                                .setImage(makeImage('https://s3.amazonaws.com/pressurepointhack/bigRushingPoint.png'))
+                                .build();
+                                
+            this.response.speak("The Big Rushing Point, please review the display in the skill card. Let's hold this position for 60 seconds time is starting in, 5, 4, 3, 2, 1" + BREAK + "<audio src='https://s3.amazonaws.com/pressurepointhack/spa30.mp3' />" + "<amazon:effect name='whispered'>Twenty more seconds to go!</amazon:effect>" + "<audio src='https://s3.amazonaws.com/pressurepointhack/spa30.mp3' />" + "Great Job your all done!")
+                                .renderTemplate(template6)
+                                .shouldEndSession(true);
+            this.emit(":responseReady");
+        }
+        else if (this.event.request.token == "7") 
+        {
+        const bodyTemplate3 = new Alexa.templateBuilders.BodyTemplate3Builder();
+                    
+            var template7 = bodyTemplate3.setTitle("Above Tears Point")
+                                .setTextContent(makePlainText("Above Tears Point is located on the webbing of last two Toes. Easily find the exact point at one inches distance from webbing of Fourth and Fifth Toe located on both feet, you can also review the image in the skill card."))
+                                .setImage(makeImage('https://s3.amazonaws.com/pressurepointhack/aboveTearsPoint.png'))
+                                .build();
+                                
+            this.response.speak("The Above Tears Point, please review the display in the skill card. Let's hold this position for 60 seconds time is starting in, 5, 4, 3, 2, 1" + BREAK + "<audio src='https://s3.amazonaws.com/pressurepointhack/spa30.mp3' />" + "<amazon:effect name='whispered'>Twenty more seconds to go!</amazon:effect>" + "<audio src='https://s3.amazonaws.com/pressurepointhack/spa30.mp3' />" + "Great Job your all done!")
+                                .renderTemplate(template7)
+                                .shouldEndSession(true);
+            this.emit(":responseReady");
+        }
+        else if (this.event.request.token == "8") 
+        {
+        const bodyTemplate3 = new Alexa.templateBuilders.BodyTemplate3Builder();
+                    
+            var template8 = bodyTemplate3.setTitle("Kidney 1 Point")
+                                .setTextContent(makePlainText("The Kidney 1 Point is situated on sole of your foot. Find the exact spot for Kidney 1 Point as displayed in the image in the skill card."))
+                                .setImage(makeImage('https://s3.amazonaws.com/pressurepointhack/kidneyPoint.png'))
+                                .build();
+                                
+            this.response.speak("The Kidney 1 Point, please review the display in the skill card. Let's hold this position for 60 seconds time is starting in, 5, 4, 3, 2, 1" + BREAK + "<audio src='https://s3.amazonaws.com/pressurepointhack/spa30.mp3' />" + "<amazon:effect name='whispered'>Twenty more seconds to go!</amazon:effect>" + "<audio src='https://s3.amazonaws.com/pressurepointhack/spa30.mp3' />" + "Great Job your all done!")
+                                .renderTemplate(template8)
+                                .shouldEndSession(true);
+            this.emit(":responseReady");
+        }
+        else if (this.event.request.token == "9") 
+        {
+        const bodyTemplate3 = new Alexa.templateBuilders.BodyTemplate3Builder();
+                    
+            var template9 = bodyTemplate3.setTitle("Ankle Point")
+                                .setTextContent(makePlainText("The Ankle Point is situated on inner side of leg above the Ankle. It is exactly two inches above the Ankle, as displayed in the image in the skill card."))
+                                .setImage(makeImage('https://s3.amazonaws.com/pressurepointhack/anklePoint.png'))
+                                .build();
+                                
+            this.response.speak("The Ankle Point, please review the display in the skill card. Let's hold this position for 60 seconds time is starting in, 5, 4, 3, 2, 1" + BREAK + "<audio src='https://s3.amazonaws.com/pressurepointhack/spa30.mp3' />" + "<amazon:effect name='whispered'>Twenty more seconds to go!</amazon:effect>" + "<audio src='https://s3.amazonaws.com/pressurepointhack/spa30.mp3' />" + "Great Job your all done!")
+                                .renderTemplate(template9)
+                                .shouldEndSession(true);
+            this.emit(":responseReady");
+        }
+        else if (this.event.request.token == "10") 
+        {
+        const bodyTemplate3 = new Alexa.templateBuilders.BodyTemplate3Builder();
+                    
+            var template10 = bodyTemplate3.setTitle("Three Mile Point")
+                                .setTextContent(makePlainText("The Three Mile Point is located below the Knee. Three Mile Point is 2 inches below the knee cap on the outer side of leg. you can review the image in the skill card."))
+                                .setImage(makeImage('https://s3.amazonaws.com/pressurepointhack/threeMilePoint.png'))
+                                .build();
+                                
+            this.response.speak("The Three Mile Point, please review the display in the skill card. Let's hold this position for 60 seconds time is starting in, 5, 4, 3, 2, 1" + BREAK + "<audio src='https://s3.amazonaws.com/pressurepointhack/spa30.mp3' />" + "<amazon:effect name='whispered'>Twenty more seconds to go!</amazon:effect>" + "<audio src='https://s3.amazonaws.com/pressurepointhack/spa30.mp3' />" + "Great Job your all done!")
+                                .renderTemplate(template10)
+                                .shouldEndSession(true);
+            this.emit(":responseReady");
+        }
+        else if (this.event.request.token == "11") 
+        {
+        const bodyTemplate3 = new Alexa.templateBuilders.BodyTemplate3Builder();
+                    
+            var template11 = bodyTemplate3.setTitle("Commanding Middle Points")
+                                .setTextContent(makePlainText("Commanding Middle Points are located at exact backside of knee cap. Find it on Center of Back of Knee crease same as displayed in the skill card."))
+                                .setImage(makeImage('https://s3.amazonaws.com/pressurepointhack/commandingMiddlePoints.png'))
+                                .build();
+                                
+            this.response.speak("Commanding Middle Points, please review the display in the skill card. Let's hold this position for 60 seconds time is starting in, 5, 4, 3, 2, 1" + BREAK + "<audio src='https://s3.amazonaws.com/pressurepointhack/spa30.mp3' />" + "<amazon:effect name='whispered'>Twenty more seconds to go!</amazon:effect>" + "<audio src='https://s3.amazonaws.com/pressurepointhack/spa30.mp3' />" + "Great Job your all done!")
+                                .renderTemplate(template11)
+                                .shouldEndSession(true);
+            this.emit(":responseReady");
+        }
+        else if (this.event.request.token == "12") 
+        {
+        const bodyTemplate3 = new Alexa.templateBuilders.BodyTemplate3Builder();
+                    
+            var template12 = bodyTemplate3.setTitle("Abdominal Sorrow Point")
+                                .setTextContent(makePlainText("Abdominal Sorrow Point is located above the Navel and below the last rib. locate the Abdominal Sorrow Point by starting from right line of earlobe at end of last rib of ribcage as displayed in the skill card."))
+                                .setImage(makeImage('https://s3.amazonaws.com/pressurepointhack/abdominal+Sorrow+Point.png'))
+                                .build();
+                                
+            this.response.speak("Abdominal Sorrow Point, please review the display in the skill card. Let's hold this position for 60 seconds time is starting in, 5, 4, 3, 2, 1" + BREAK + "<audio src='https://s3.amazonaws.com/pressurepointhack/spa30.mp3' />" + "<amazon:effect name='whispered'>Twenty more seconds to go!</amazon:effect>" + "<audio src='https://s3.amazonaws.com/pressurepointhack/spa30.mp3' />" + "Great Job your all done!")
+                                .renderTemplate(template12)
+                                .shouldEndSession(true);
+            this.emit(":responseReady");
+        }
+        else if (this.event.request.token == "13") 
+        {
+        const bodyTemplate3 = new Alexa.templateBuilders.BodyTemplate3Builder();
+                    
+            var template13 = bodyTemplate3.setTitle("Sea of Energy Point")
+                                .setTextContent(makePlainText("Sea of Energy Point is situated below the Belly button. You can it about 2 centimeters below the Navel, as displayed in the skill card."))
+                                .setImage(makeImage('https://s3.amazonaws.com/pressurepointhack/sea+of+Energy+Point.png'))
+                                .build();
+                                
+            this.response.speak("Sea of Energy Point, please review the display in the skill card. Let's hold this position for 60 seconds time is starting in, 5, 4, 3, 2, 1" + BREAK + "<audio src='https://s3.amazonaws.com/pressurepointhack/spa30.mp3' />" + "<amazon:effect name='whispered'>Twenty more seconds to go!</amazon:effect>" + "<audio src='https://s3.amazonaws.com/pressurepointhack/spa30.mp3' />" + "Great Job your all done!")
+                                .renderTemplate(template13)
+                                .shouldEndSession(true);
+            this.emit(":responseReady");
+        }
+        else if (this.event.request.token == "14") 
+        {
+        const bodyTemplate3 = new Alexa.templateBuilders.BodyTemplate3Builder();
+                    
+            var template14 = bodyTemplate3.setTitle("Third Eye Point")
+                                .setTextContent(makePlainText("Third Eye Point is situated between the two eyebrows. The exact spot for the Third Eye Point is as displayed in the skill card."))
+                                .setImage(makeImage('https://s3.amazonaws.com/pressurepointhack/thridEyePoint.png'))
+                                .build();
+                                
+            this.response.speak("Third Eye Point, please review the display in the skill card. Let's hold this position for 60 seconds time is starting in, 5, 4, 3, 2, 1" + BREAK + "<audio src='https://s3.amazonaws.com/pressurepointhack/spa30.mp3' />" + "<amazon:effect name='whispered'>Twenty more seconds to go!</amazon:effect>" + "<audio src='https://s3.amazonaws.com/pressurepointhack/spa30.mp3' />" + "Great Job your all done!")
+                                .renderTemplate(template14)
+                                .shouldEndSession(true);
+            this.emit(":responseReady");
+        }
+        else if (this.event.request.token == "15") 
+        {
+        const bodyTemplate3 = new Alexa.templateBuilders.BodyTemplate3Builder();
+                    
+            var template15 = bodyTemplate3.setTitle("Drilling Bamboo Points")
+                                .setTextContent(makePlainText("Drilling Bamboo Points are located at ridge of the eyebrows. Drilling Bamboo Points are at the spot where ridge of the eyebrows meet the bridge of the nose, as displayed in the skill card."))
+                                .setImage(makeImage('https://s3.amazonaws.com/pressurepointhack/drillingPoint.png'))
+                                .build();
+                                
+            this.response.speak("Drilling Bamboo Points, please review the display in the skill card. Let's hold this position for 60 seconds time is starting in, 5, 4, 3, 2, 1" + BREAK + "<audio src='https://s3.amazonaws.com/pressurepointhack/spa30.mp3' />" + "<amazon:effect name='whispered'>Twenty more seconds to go!</amazon:effect>" + "<audio src='https://s3.amazonaws.com/pressurepointhack/spa30.mp3' />" + "Great Job your all done!")
+                                .renderTemplate(template15)
+                                .shouldEndSession(true);
+            this.emit(":responseReady");
+        }
+    }
+};
+
+function getVoice(tip) {
+
+    let list = [];
+    for (let i = 0; i < data.hacks.length; i++) {
+
+        if(data.hacks[i].tip.search(tip) >  -1) {
+            list.push(data.hacks[i]);
+        }
+    }
+    return list;
+}
+
+function getByName(name) {
+
+    let list = [];
+    for (let i = 0; i < data.hacks.length; i++) {
+
+        if(data.hacks[i].name.search(name) >  -1) {
+            list.push(data.hacks[i]);
+        }
+    }
+    return list;
+}
+
+function getBylocation(location) {
+
+    let list = [];
+    for (let i = 0; i < data.hacks.length; i++) {
+
+        if(data.hacks[i].location.search(location) >  -1) {
+            list.push(data.hacks[i]);
+        }
+    }
+    return list;
+}
+
+function getBySymptoms(symptoms) {
+
+    let list = [];
+    for (let i = 0; i < data.hacks.length; i++) {
+
+        if(data.hacks[i].symptoms.search(symptoms) >  -1) {
+            list.push(data.hacks[i]);
+        }
+    }
+    return list;
+}
+
+function randomArrayElement(array) {
+    let i = 0;
+    i = Math.floor(Math.random() * array.length);
+    return(array[i]);
+}
+
+exports.handler = function (event, context) {
+    const alexa = Alexa.handler(event, context);
+    alexa.APP_ID = APP_ID;
+    alexa.registerHandlers(handlers);
+    alexa.execute();
+};
+
+///////////////////ALEXASHOW///////////////
+function supportsDisplay() {
+  var hasDisplay =
+    this.event.context &&
+    this.event.context.System &&
+    this.event.context.System.device &&
+    this.event.context.System.device.supportedInterfaces &&
+    this.event.context.System.device.supportedInterfaces.Display;
+
+  return hasDisplay;
+}
+
+function isSimulator() {
+  var isSimulator = !this.event.context;
+  return isSimulator;
+}
+
+function renderTemplate (content) {
+
+   switch(content.templateToken) {
+
+       case "factBodyTemplate":
+        var response = {
+        "version": "2.0",
+        "response": {
+        "shouldEndSession": false,
+        "outputSpeech": {
+            "type": "SSML",
+            "ssml": "<speak> Welcome to Pressure Point Hack, Use your finger to select the hack you would like to try.  </speak>"
+        },
+        "reprompt": {
+            "outputSpeech": {
+                "type": "SSML",
+                "ssml": "<speak> Use your finger to select the pressure point hack you would like to try. </speak>"
+            }
+          },
+        "directives": [
+            {
+              "type": "Hint",
+              "hint": {
+                  "type": "PlainText",
+                  "text": "See a full list in the Skill Description"
+              }
+            },
+            {
+                "type": "Display.RenderTemplate",
+                 "template": {
+                     "type":  "ListTemplate1",
+                    "title": " Pressure Point Hack",
+                    "token": "content.templateToken",
+                    "backButton": "VISIBLE",
+                "listItems": [
+                        {
+                            "token": "1",
+                            "image": {
+                                "contentDescription": "Item Description",
+                                "sources": [
+                                    {
+                                        "url": "https://s3.amazonaws.com/pressurepointhack/handValleyPointsm.png",
+
+                                    }
+                                ]
+                            },
+                            "textContent": {
+                                "primaryText": {
+                                    "text": "<font size='3'><u><b>Hand Valley Point</b></u></font>",
+                                    "type": "RichText"
+                                },
+                                "secondaryText": {
+                                    "text": "<font size='1'>Used For: Stress, Headaches, Migraines, Tooth ache</font>",
+                                    "type": "RichText"
+                                }
+                            }
+                        },
+                        {
+                            "token": "2",
+                            "image": {
+                                "contentDescription": "Item Description",
+                                "sources": [
+                                    {
+                                        "url": "https://s3.amazonaws.com/pressurepointhack/baseOfThePointsm.png",
+
+                                    }
+                                ]
+                            },
+                            "textContent": {
+                                "primaryText": {
+                                    "text": "<font size='3'><u><b>Base of Thumb Point</b></u></font>",
+                                    "type": "RichText"
+                                },
+                                "secondaryText": {
+                                    "type": "RichText",
+                                    "text": "<font size='1'>Used For: Breathing problems, Coughing</font>",
+                                },
+                            }
+                        },
+                         {
+                            "token": "3",
+                            "image": {
+                                "contentDescription": "Item Description",
+                                "sources": [
+                                    {
+                                        "url": "https://s3.amazonaws.com/pressurepointhack/wristPointsm.png",
+
+                                    }
+                                ]
+                            },
+                            "textContent": {
+                                "primaryText": {
+                                    "text": "<font size='3'><u><b>Wrist Point</b></u></font>",
+                                    "type": "RichText"
+                                },
+                                "secondaryText": {
+                                   "text": "<font size='1'>Used For: Stress, Emotional State</font>",
+                                    "type": "RichText"
+                                },
+                            }
+                        },
+                        {
+                            "token": "4",
+                            "image": {
+                                "contentDescription": "Item Description",
+                                "sources": [
+                                    {
+                                        "url": "https://s3.amazonaws.com/pressurepointhack/innerGatePointsm.png",
+
+                                    }
+                                ]
+                            },
+                            "textContent": {
+                                "primaryText": {
+                                    "text": "<font size='3'><u><b>Inner Gate Point</b></u></font>",
+                                    "type": "RichText"
+                                },
+                                "secondaryText": {
+                                    "type": "RichText",
+                                    "text": "<font size='1'>Used For: Indigestion, Nausea, Stomach Pain, Anxiety</font>"
+                                },
+                            }
+                        },
+                        {
+                            "token": "5",
+                            "image": {
+                                "contentDescription": "Item Description",
+                                "sources": [
+                                    {
+                                        "url": "https://s3.amazonaws.com/pressurepointhack/largeIntestinePointsm.png",
+
+                                    }
+                                ]
+                            },
+                            "textContent": {
+                                "primaryText": {
+                                    "text": "<font size='3'><u><b>Large Intestine Point</b></u></font>",
+                                    "type": "RichText"
+                                },
+                                "secondaryText": {
+                                    "type": "RichText",
+                                    "text": "<font size='1'>Used For: Stress, Water Waste</font>"
+                                },
+                            }
+                        },
+                        {
+                            "token": "6",
+                            "image": {
+                                "contentDescription": "Item Description",
+                                "sources": [
+                                    {
+                                        "url": "https://s3.amazonaws.com/pressurepointhack/bigRushingPointsm.png",
+
+                                    }
+                                ]
+                            },
+                            "textContent": {
+                                "primaryText": {
+                                    "text": "<font size='3'><u><b>Big Rushing Point</b></u></font>",
+                                    "type": "RichText"
+                                },
+                                "secondaryText": {
+                                    "type": "RichText",
+                                    "text": "<font size='1'>Used For: Headache, Eye Tiredness, Foot pain</font>"
+                                },
+                            }
+                        },
+                        {
+                            "token": "7",
+                            "image": {
+                                "contentDescription": "Item Description",
+                                "sources": [
+                                    {
+                                        "url": "https://s3.amazonaws.com/pressurepointhack/aboveTearsPointsm.png",
+
+                                    }
+                                ]
+                            },
+                            "textContent": {
+                                "primaryText": {
+                                    "text": "<font size='3'><u><b>Above Tears Point</b></u></font>",
+                                    "type": "RichText"
+                                },
+                                "secondaryText": {
+                                    "type": "RichText",
+                                    "text": "<font size='1'>Used For: Headache, Shoulder Pain, Sciatica, Arthritic Pain</font>"
+                                },
+                            }
+                        },
+                        {
+                            "token": "8",
+                            "image": {
+                                "contentDescription": "Item Description",
+                                "sources": [
+                                    {
+                                        "url": "https://s3.amazonaws.com/pressurepointhack/kidneyPointsm.png",
+
+                                    }
+                                ]
+                            },
+                            "textContent": {
+                                "primaryText": {
+                                    "text": "<font size='3'><u><b>Kidney 1 Point</b></u></font>",
+                                    "type": "RichText"
+                                },
+                                "secondaryText": {
+                                    "type": "RichText",
+                                    "text": "<font size='1'>Used For: Headache, Dizziness, Neck Pain, Nausea, Constipation</font>"
+                                },
+                            }
+                        },
+                        {
+                            "token": "9",
+                            "image": {
+                                "contentDescription": "Item Description",
+                                "sources": [
+                                    {
+                                        "url": "https://s3.amazonaws.com/pressurepointhack/anklePointsm.png",
+
+                                    }
+                                ]
+                            },
+                            "textContent": {
+                                "primaryText": {
+                                    "text": "<font size='3'><u><b>Ankle Point</b></u></font>",
+                                    "type": "RichText"
+                                },
+                                "secondaryText": {
+                                    "type": "RichText",
+                                    "text": "<font size='1'>Used For: Digestion, Appetite, Water Waste</font>"
+                                },
+                            }
+                        },
+                        {
+                            "token": "10",
+                            "image": {
+                                "contentDescription": "Item Description",
+                                "sources": [
+                                    {
+                                        "url": "https://s3.amazonaws.com/pressurepointhack/threeMilePointsm.png",
+
+                                    }
+                                ]
+                            },
+                            "textContent": {
+                                "primaryText": {
+                                    "text": "<font size='3'><u><b>Three Mile Point</b></u></font>",
+                                    "type": "RichText"
+                                },
+                                "secondaryText": {
+                                    "type": "RichText",
+                                    "text": "<font size='1'>Used For: Digestion, Stomach Pain</font>"
+                                },
+                            }
+                        },
+                        {
+                            "token": "11",
+                            "image": {
+                                "contentDescription": "Item Description",
+                                "sources": [
+                                    {
+                                        "url": "https://s3.amazonaws.com/pressurepointhack/commandingMiddlePointssm.png",
+
+                                    }
+                                ]
+                            },
+                            "textContent": {
+                                "primaryText": {
+                                    "text": "<font size='3'><u><b>Commanding Middle Points</b></u></font>",
+                                    "type": "RichText"
+                                },
+                                "secondaryText": {
+                                    "type": "RichText",
+                                    "text": "<font size='1'>Used For: Back Pain, Sciatica, Neck Pain, Arthritis</font>"
+                                },
+                            }
+                        },
+                        {
+                            "token": "12",
+                            "image": {
+                                "contentDescription": "Item Description",
+                                "sources": [
+                                    {
+                                        "url": "https://s3.amazonaws.com/pressurepointhack/abdominal+Sorrow+Pointsm.png",
+
+                                    }
+                                ]
+                            },
+                            "textContent": {
+                                "primaryText": {
+                                    "text": "<font size='3'><u><b>Abdominal Sorrow Point</b></u></font>",
+                                    "type": "RichText"
+                                },
+                                "secondaryText": {
+                                    "type": "RichText",
+                                    "text": "<font size='1'>Used For: Ulcers, Indigestion, Rib Pain</font>"
+                                },
+                            }
+                        },
+                        {
+                            "token": "13",
+                            "image": {
+                                "contentDescription": "Item Description",
+                                "sources": [
+                                    {
+                                        "url": "https://s3.amazonaws.com/pressurepointhack/sea+of+Energy+Pointsm.png",
+
+                                    }
+                                ]
+                            },
+                            "textContent": {
+                                "primaryText": {
+                                    "text": "<font size='3'><u><b>Sea of Energy Point</b></u></font>",
+                                    "type": "RichText"
+                                },
+                                "secondaryText": {
+                                    "type": "RichText",
+                                    "text": "<font size='1'>Used For: Digestion, Abdominal Pain, Gas, Back Pain, Constipation</font>"
+                                },
+                            }
+                        },
+                        {
+                            "token": "14",
+                            "image": {
+                                "contentDescription": "Item Description",
+                                "sources": [
+                                    {
+                                        "url": "https://s3.amazonaws.com/pressurepointhack/thridEyePointsm.png",
+
+                                    }
+                                ]
+                            },
+                            "textContent": {
+                                "primaryText": {
+                                    "text": "<font size='3'><u><b>Third Eye Point</b></u></font>",
+                                    "type": "RichText"
+                                },
+                                "secondaryText": {
+                                    "type": "RichText",
+                                    "text": "<font size='1'>Used For: Headache, Ulcers, Hay Fever, Digestion, Eye Tiredness</font>"
+                                },
+                            }
+                        },
+                        {
+                            "token": "15",
+                            "image": {
+                                "contentDescription": "Item Description",
+                                "sources": [
+                                    {
+                                        "url": "https://s3.amazonaws.com/pressurepointhack/drillingPointsm.png",
+
+                                    }
+                                ]
+                            },
+                            "textContent": {
+                                "primaryText": {
+                                    "text": "<font size='3'><u><b>Drilling Bamboo Points</b></u></font>",
+                                    "type": "RichText"
+                                },
+                                "secondaryText": {
+                                    "type": "RichText",
+                                    "text": "<font size='1'>Used For: Sinus Pain, Headache, Eye Tiredness</font>",
+                                },
+                            }
+                        }
+                        
+                    ],
+                    "backgroundImage": {
+                        "sources": [
+                            {
+                                "url": ""
+                            }
+                        ]
+                    },
+
+                 }
+
+            }
+
+            ]
+    },
+             "sessionAttributes": content.sessionAttributes
+           };
+           this.context.succeed(response);
+           break;
+
+       default:
+          this.response.speak("Thanks for using Pressure Point Hacks, goodbye");
+          this.emit(':responseReady');
+   }
+
+}
+
