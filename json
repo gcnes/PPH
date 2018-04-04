@@ -1,0 +1,752 @@
+{
+    "interactionModel": {
+        "languageModel": {
+            "invocationName": "pressure point hack",
+            "intents": [
+                {
+                    "name": "AMAZON.CancelIntent",
+                    "samples": [
+                        "discontinue",
+                        "cancel",
+                        "cancel please",
+                        "please cancel",
+                        "off",
+                        "off now",
+                        "off now please",
+                        "please off now"
+                    ]
+                },
+                {
+                    "name": "AMAZON.HelpIntent",
+                    "samples": [
+                        "I want help",
+                        "help please",
+                        "help me",
+                        "help now please",
+                        "I need help now",
+                        "help ",
+                        "help me please",
+                        "please help me",
+                        "help now",
+                        "I need help",
+                        "I need help please"
+                    ]
+                },
+                {
+                    "name": "AMAZON.StopIntent",
+                    "samples": [
+                        "stop",
+                        "stop it",
+                        "please stop",
+                        "stop please",
+                        "please turn off",
+                        "turn off",
+                        "turn off please",
+                        "shut up",
+                        "shut down",
+                        "stand down",
+                        "stand down please",
+                        "please stand down"
+                    ]
+                },
+                {
+                    "name": "AMAZON.MoreIntent",
+                    "samples": [
+                        "please give me another",
+                        "another please",
+                        "another",
+                        "one more time",
+                        "please more",
+                        "more please"
+                    ]
+                },
+                {
+                    "name": "AMAZON.NavigateHomeIntent",
+                    "samples": [
+                        "back to home",
+                        "home",
+                        "i want to go home",
+                        "take me home",
+                        "please home",
+                        "home please",
+                        "please take me home"
+                    ]
+                },
+                {
+                    "name": "AMAZON.NavigateSettingsIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.NextIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.PageUpIntent",
+                    "samples": [
+                        "up",
+                        "move it up",
+                        "move up",
+                        "up page",
+                        "page up"
+                    ]
+                },
+                {
+                    "name": "AMAZON.PageDownIntent",
+                    "samples": [
+                        "down",
+                        "move it down",
+                        "move down",
+                        "down page",
+                        "page down"
+                    ]
+                },
+                {
+                    "name": "AMAZON.PreviousIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.ScrollRightIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.ScrollDownIntent",
+                    "samples": [
+                        "scroll it down",
+                        "down scroll",
+                        "scroll down"
+                    ]
+                },
+                {
+                    "name": "AMAZON.ScrollLeftIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.ScrollUpIntent",
+                    "samples": [
+                        "scroll it up",
+                        "up scroll",
+                        "scroll up"
+                    ]
+                },
+                {
+                    "name": "PressurePointHack",
+                    "slots": [],
+                    "samples": [
+                        "and pressure point hack",
+                        "need a pressure point",
+                        "I need a preesure point hack",
+                        "I want a pressure point hack",
+                        "I would like a pressure point hack",
+                        "tell me a pressure point",
+                        "give me a pressure point",
+                        "random pressure point hack",
+                        "random pressure point hack please",
+                        "random hack please",
+                        "give me a random pressure point hack",
+                        "tell me a random pressure point hack",
+                        "give me a pressure point hack",
+                        "tell me a pressure point hack",
+                        "and tell me a pressure point hack",
+                        "and give me a pressure point hack",
+                        "and tell me a random pressure point hack",
+                        "and give me a random pressure point hack",
+                        "and random",
+                        "random"
+                    ]
+                },
+                {
+                    "name": "pressureIntent",
+                    "slots": [
+                        {
+                            "name": "pointSlot",
+                            "type": "pointSlot"
+                        }
+                    ],
+                    "samples": [
+                        "and the {pointSlot}",
+                        "how can i get ride of pain in my {pointSlot}",
+                        "how can I relief {pointSlot}",
+                        "i need help with my {pointSlot} relief",
+                        "I need help with my {pointSlot}",
+                        "help me reduce my {pointSlot}",
+                        "I need {pointSlot} relief",
+                        "I need {pointSlot}",
+                        "i would like to {pointSlot}",
+                        "I need to work on my {pointSlot}",
+                        "I want to work on my {pointSlot}",
+                        "give me a {pointSlot}",
+                        "can you give me a {pointSlot}",
+                        "I need a pressure point for my {pointSlot}",
+                        "I would like a pressure point for my {pointSlot}",
+                        "tell me about {pointSlot}",
+                        "how can I reduce my {pointSlot}",
+                        "please help me to reduce my {pointSlot}",
+                        "and please help me reduce {pointSlot}",
+                        "and please give me a {pointSlot}",
+                        "{pointSlot}",
+                        "and {pointSlot}"
+                    ]
+                },
+                {
+                    "name": "Unhandled",
+                    "slots": [
+                        {
+                            "name": "actor",
+                            "type": "AMAZON.Actor"
+                        },
+                        {
+                            "name": "animals",
+                            "type": "AMAZON.Animal"
+                        },
+                        {
+                            "name": "artist",
+                            "type": "AMAZON.Artist"
+                        },
+                        {
+                            "name": "book",
+                            "type": "AMAZON.Book"
+                        },
+                        {
+                            "name": "color",
+                            "type": "AMAZON.Color"
+                        },
+                        {
+                            "name": "country",
+                            "type": "AMAZON.Country"
+                        },
+                        {
+                            "name": "creativeWork",
+                            "type": "AMAZON.CreativeWorkType"
+                        },
+                        {
+                            "name": "week",
+                            "type": "AMAZON.DayOfWeek"
+                        },
+                        {
+                            "name": "device",
+                            "type": "AMAZON.DeviceType"
+                        },
+                        {
+                            "name": "drink",
+                            "type": "AMAZON.Drink"
+                        },
+                        {
+                            "name": "director",
+                            "type": "AMAZON.Director"
+                        },
+                        {
+                            "name": "eventType",
+                            "type": "AMAZON.EventType"
+                        },
+                        {
+                            "name": "food",
+                            "type": "AMAZON.Food"
+                        },
+                        {
+                            "name": "game",
+                            "type": "AMAZON.Game"
+                        },
+                        {
+                            "name": "movie",
+                            "type": "AMAZON.Movie"
+                        },
+                        {
+                            "name": "org",
+                            "type": "AMAZON.Organization"
+                        },
+                        {
+                            "name": "person",
+                            "type": "AMAZON.Person"
+                        },
+                        {
+                            "name": "service",
+                            "type": "AMAZON.Service"
+                        },
+                        {
+                            "name": "socialMedia",
+                            "type": "AMAZON.SocialMediaPlatform"
+                        },
+                        {
+                            "name": "software",
+                            "type": "AMAZON.SoftwareApplication"
+                        },
+                        {
+                            "name": "sport",
+                            "type": "AMAZON.Sport"
+                        },
+                        {
+                            "name": "uscity",
+                            "type": "AMAZON.US_CITY"
+                        },
+                        {
+                            "name": "firstName",
+                            "type": "AMAZON.US_FIRST_NAME"
+                        },
+                        {
+                            "name": "usState",
+                            "type": "AMAZON.US_STATE"
+                        },
+                        {
+                            "name": "videoGames",
+                            "type": "AMAZON.VideoGame"
+                        }
+                    ],
+                    "samples": [
+                        "{week}",
+                        "{videoGames}",
+                        "{uscity}",
+                        "{usState}",
+                        "{sport}",
+                        "{software}",
+                        "{socialMedia}",
+                        "{service}",
+                        "{person}",
+                        "{org}",
+                        "{movie}",
+                        "{game} ",
+                        "{food}",
+                        "{firstName}",
+                        "{eventType}",
+                        "{drink}",
+                        "{director}",
+                        "{device}",
+                        "{creativeWork}",
+                        "{country}",
+                        "{color}",
+                        "{book}",
+                        "{artist}",
+                        "{animals}",
+                        "{actor}"
+                    ]
+                }
+            ],
+            "types": [
+                {
+                    "name": "pointSlot",
+                    "values": [
+                        {
+                            "name": {
+                                "value": "third eye points"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "3rd eye point"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "drilling bamboo points",
+                                "synonyms": [
+                                    "bamboo",
+                                    "drilling bamboo"
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "third eye point",
+                                "synonyms": [
+                                    "3rd eye",
+                                    "third eye",
+                                    "eye point"
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "sea of energy point",
+                                "synonyms": [
+                                    "energy sea",
+                                    "sea of energy"
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "abdominal sorrow point",
+                                "synonyms": [
+                                    "abdominal sorrow"
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "commanding middle points",
+                                "synonyms": [
+                                    "command middle points",
+                                    "command middle point",
+                                    "middle point",
+                                    "commanding middle point"
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "three mile point",
+                                "synonyms": [
+                                    "3 mile point",
+                                    "3 mile",
+                                    "three mile",
+                                    "three mile points"
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "ankle point",
+                                "synonyms": [
+                                    "one with the ankle",
+                                    "ankle one"
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "kidney 1 point",
+                                "synonyms": [
+                                    "kidney points",
+                                    "kidney point"
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "above tears point",
+                                "synonyms": [
+                                    "tear points",
+                                    "above tear",
+                                    "above tears points",
+                                    "above tear point"
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "big rushing point",
+                                "synonyms": [
+                                    "big rush",
+                                    "big point",
+                                    "rushing point",
+                                    "big rushing"
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "large intestine point",
+                                "synonyms": [
+                                    "large point",
+                                    "intestine point",
+                                    "large intestine"
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "inner gate point",
+                                "synonyms": [
+                                    "inner point",
+                                    "gate point",
+                                    "inner gate"
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "wrist point",
+                                "synonyms": [
+                                    "wrists points",
+                                    "wrists point",
+                                    "wrist points"
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "base of thumb point",
+                                "synonyms": [
+                                    "base of thumb",
+                                    "base of the thumb",
+                                    "thumb points",
+                                    "thumb point",
+                                    "base of the thumb point"
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "hand valley point",
+                                "synonyms": [
+                                    "hand valley",
+                                    "hand valley points"
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "appetite",
+                                "synonyms": [
+                                    "curb eating",
+                                    "stop eating",
+                                    "hungry "
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "rib pain",
+                                "synonyms": [
+                                    "ribs pains",
+                                    "rib pains",
+                                    "ribs pain",
+                                    "rib"
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "emotional state",
+                                "synonyms": [
+                                    "emotion state",
+                                    "emotion ",
+                                    "emotional states",
+                                    "emotional pressure "
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "coughing",
+                                "synonyms": [
+                                    "coughing points",
+                                    "coughing point",
+                                    "cough"
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "breathing problems",
+                                "synonyms": [
+                                    "breathing problem",
+                                    "breathing "
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "anxiety",
+                                "synonyms": [
+                                    "anxiety issues"
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "nausea",
+                                "synonyms": [
+                                    "sea sick",
+                                    "sea sickness ",
+                                    "throwing up"
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "stomach pain",
+                                "synonyms": [
+                                    "stomach pains"
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "stress",
+                                "synonyms": [
+                                    "high blood pressure",
+                                    "stresses "
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "migraines",
+                                "synonyms": [
+                                    "migraine"
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "foot pain",
+                                "synonyms": [
+                                    "foot pains",
+                                    "foot"
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "water waste",
+                                "synonyms": [
+                                    "water retention "
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "dizziness",
+                                "synonyms": [
+                                    "dizzy "
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "arthritis",
+                                "synonyms": [
+                                    "arthritic issues",
+                                    "arthritic ",
+                                    "arthritic pain"
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "back pain",
+                                "synonyms": [
+                                    "pain in the back",
+                                    "back pains"
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "neck pain",
+                                "synonyms": [
+                                    "pain in the neck",
+                                    "neck pains"
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "sciatica",
+                                "synonyms": [
+                                    "sciatic nerve",
+                                    "sciatic nerve pains",
+                                    "sciatic pains",
+                                    "sciatic",
+                                    "sciatic nerve pain"
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "indigestion"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "ulcers",
+                                "synonyms": [
+                                    "ulcer"
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "digestion"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "eye tiredness",
+                                "synonyms": [
+                                    "eyesight",
+                                    "tired eyesight ",
+                                    "tired eyes"
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "sinus pain",
+                                "synonyms": [
+                                    "sinus pains",
+                                    "sinus"
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "headache",
+                                "synonyms": [
+                                    "headaches",
+                                    "headache pains",
+                                    "headache pain"
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "constipation"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "foot",
+                                "synonyms": [
+                                    "feet"
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "hand",
+                                "synonyms": [
+                                    "hands"
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "abdomen",
+                                "synonyms": [
+                                    "abs",
+                                    "abdominal "
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "elbow",
+                                "synonyms": [
+                                    "arm"
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "leg",
+                                "synonyms": [
+                                    "legs"
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "face",
+                                "synonyms": [
+                                    "faces",
+                                    "head"
+                                ]
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}
